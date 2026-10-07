@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRONPULSE FITNESS | Gym Management & Fee Controller</title>
+  <meta name="description" content="Professional gym members roster, fee tracking, paid vs unpaid dues, and membership billing system.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Admin Styles -->
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+    
+    <!-- Left Sidebar -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-logo-icon"><i class="fa-solid fa-dumbbell"></i></div>
+          <div class="brand-text">
+            <span class="brand-title">IRON<span>PULSE</span></span>
+            <span class="brand-tag">MANAGER PRO</span>
+          </div>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">MAIN MENU</div>
+        <a href="#" class="sidebar-link active" data-filter="all">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard & Roster</span>
+        </a>
+        <a href="#" class="sidebar-link" data-filter="paid">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Paid Members</span>
+          <span class="badge-counter badge-success" id="sidebarPaidCount">0</span>
+        </a>
+        <a href="#" class="sidebar-link" data-filter="unpaid">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span>Unpaid & Due Fees</span>
+          <span class="badge-counter badge-danger" id="sidebarUnpaidCount">0</span>
+        </a>
+        <a href="#" class="sidebar-link" data-filter="expiring">
+          <i class="fa-solid fa-clock"></i>
+          <span>Expiring This Week</span>
+          <span class="badge-counter badge-warning" id="sidebarExpiringCount">0</span>
+        </a>
+
+        <div class="nav-section-title">QUICK ACTIONS</div>
+        <a href="javascript:void(0)" class="sidebar-link" id="sidebarAddMemberBtn">
+          <i class="fa-solid fa-user-plus"></i>
+          <span>Add New Member</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" id="sidebarExportBtn">
+          <i class="fa-solid fa-file-arrow-down"></i>
+          <span>Export Excel / CSV</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-link" id="sidebarResetBtn">
+          <i class="fa-solid fa-rotate-right"></i>
+          <span>Reset Sample Data</span>
+        </a>
+
+        <div class="nav-section-title">PORTAL NAVIGATION</div>
+        <a href="index.html" class="sidebar-link external-site-link">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>View Public Website</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <div class="admin-details">
+            <span class="admin-name">Admin / Reception</span>
+            <span class="admin-role">Super Manager</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main">
+      
+      <!-- Top Sticky Navbar -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="sidebar-mobile-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+            <i class="fa-solid fa-bars"></i>
+          </button>
+          <div class="breadcrumbs">
+            <span class="breadcrumb-item">IronPulse Fitness</span>
+            <i class="fa-solid fa-chevron-right breadcrumb-separator"></i>
+            <span class="breadcrumb-item active-crumb">Members & Fee Management</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <div class="current-date-pill">
+            <i class="fa-regular fa-calendar-days"></i>
+            <span id="liveDateDisplay">Oct 08, 2026</span>
+          </div>
+          <a href="index.html" class="btn btn-sm btn-outline-cyan" target="_blank">
+            <i class="fa-solid fa-globe"></i> Public Website ↗
+          </a>
+          <button class="btn btn-sm btn-primary-glow" id="openNewMemberModalBtn">
+            <i class="fa-solid fa-plus"></i> Add Member
+          </button>
+        </div>
+      </header>
+
+      <!-- Dashboard Body -->
+      <div class="admin-content">
+
+        <!-- Welcome & Quick Status Header -->
+        <div class="dashboard-greeting">
+          <div>
+            <h1 class="greeting-title">Gym Members & Fee Ledger</h1>
+            <p class="greeting-sub">Monitor active gym enrollments, track collected revenue vs unpaid dues, and issue payment receipts.</p>
+          </div>
+          <div class="quick-header-actions">
+            <button class="btn btn-secondary-neon" id="exportCsvBtn">
+              <i class="fa-solid fa-download"></i> Export Data
+            </button>
+            <button class="btn btn-primary-glow" id="addNewMemberBtnHero">
+              <i class="fa-solid fa-user-plus"></i> Register Member
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Key Metric Cards (Fee & Member counts) -->
+        <div class="metrics-grid">
+          
+          <!-- Stat 1: Total Members -->
+          <div class="metric-card card-cyan">
+            <div class="metric-header">
+              <span class="metric-label">TOTAL MEMBERS</span>
+              <div class="metric-icon icon-cyan">
+                <i class="fa-solid fa-users"></i>
+              </div>
+            </div>
+            <div class="metric-body">
+              <h2 class="metric-value" id="statTotalMembers">0</h2>
+              <div class="metric-trend trend-positive">
+                <i class="fa-solid fa-arrow-trend-up"></i>
+                <span id="statActiveRatio">100% Active</span>
+              </div>
+            </div>
+            <div class="metric-footer-bar">
+              <span>All registered athletes</span>
+            </div>
+          </div>
+
+          <!-- Stat 2: Fee Collected (Paid) -->
+          <div class="metric-card card-green">
+            <div class="metric-header">
+              <span class="metric-label">TOTAL FEE COLLECTED</span>
+              <div class="metric-icon icon-green">
+                <i class="fa-solid fa-money-bill-wave"></i>
+              </div>
+            </div>
+            <div class="metric-body">
+              <h2 class="metric-value" id="statFeeCollected">₹0</h2>
+              <div class="metric-trend trend-positive">
+                <i class="fa-solid fa-circle-check"></i>
+                <span id="statPaidCount">0 Members Paid</span>
+              </div>
+            </div>
+            <div class="metric-footer-bar">
+              <span>Verified Revenue in Vault</span>
+            </div>
+          </div>
+
+          <!-- Stat 3: Fee Due (Unpaid) -->
+          <div class="metric-card card-red">
+            <div class="metric-header">
+              <span class="metric-label">OUTSTANDING / UNPAID DUE</span>
+              <div class="metric-icon icon-red">
+                <i class="fa-solid fa-hand-holding-dollar"></i>
+              </div>
+            </div>
+            <div class="metric-body">
+              <h2 class="metric-value" id="statFeeDue">₹0</h2>
+              <div class="metric-trend trend-negative">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                <span id="statUnpaidCount">0 Members Pending</span>
+              </div>
+            </div>
+            <div class="metric-footer-bar">
+              <span>Collection required</span>
+            </div>
+          </div>
+
+          <!-- Stat 4: Expiring Memberships -->
+          <div class="metric-card card-amber">
+            <div class="metric-header">
+              <span class="metric-label">EXPIRING THIS MONTH</span>
+              <div class="metric-icon icon-amber">
+                <i class="fa-solid fa-hourglass-half"></i>
+              </div>
+            </div>
+            <div class="metric-body">
+              <h2 class="metric-value" id="statExpiringCount">0</h2>
+              <div class="metric-trend trend-warning">
+                <i class="fa-solid fa-bell"></i>
+                <span>Renewal Follow-ups</span>
+              </div>
+            </div>
+            <div class="metric-footer-bar">
+              <span>Needs renewal reminder</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="table-toolbar-card">
+          <div class="toolbar-tabs">
+            <button class="filter-tab active" data-filter="all">
+              <i class="fa-solid fa-users"></i> All Members (<span id="tabCountAll">0</span>)
+            </button>
+            <button class="filter-tab" data-filter="paid">
+              <i class="fa-solid fa-circle-check"></i> Paid Fees (<span id="tabCountPaid">0</span>)
+            </button>
+            <button class="filter-tab filter-tab-danger" data-filter="unpaid">
+              <i class="fa-solid fa-circle-exclamation"></i> Unpaid / Due (<span id="tabCountUnpaid">0</span>)
+            </button>
+            <button class="filter-tab filter-tab-warning" data-filter="expiring">
+              <i class="fa-solid fa-clock"></i> Expiring Soon (<span id="tabCountExpiring">0</span>)
+            </button>
+          </div>
+
+          <div class="toolbar-controls">
+            <!-- Search Box -->
+            <div class="search-input-wrap">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="memberSearchInput" class="search-input" placeholder="Search by name, phone, or ID...">
+              <button class="search-clear-btn" id="searchClearBtn" style="display: none;">&times;</button>
+            </div>
+
+            <!-- Plan Filter -->
+            <div class="select-filter-wrap">
+              <select id="planFilterSelect" class="filter-dropdown">
+                <option value="all">All Plans</option>
+                <option value="Standard Iron">Standard (1 Mo)</option>
+                <option value="Pro Athlete">Pro Athlete (3 Mo)</option>
+                <option value="VIP Beast Ultimate">VIP Beast (12 Mo)</option>
+              </select>
+            </div>
+
+            <!-- Sort By -->
+            <div class="select-filter-wrap">
+              <select id="sortFilterSelect" class="filter-dropdown">
+                <option value="recent">Sort: Newest First</option>
+                <option value="fee-high">Fee: High to Low</option>
+                <option value="fee-low">Fee: Low to High</option>
+                <option value="expiry">Expiry: Soonest</option>
+                <option value="name">Name: A to Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Members Table Container -->
+        <div class="members-table-card">
+          <div class="table-responsive">
+            <table class="members-table">
+              <thead>
+                <tr>
+                  <th>MEMBER ID & ATHLETE</th>
+                  <th>CONTACT INFO</th>
+                  <th>MEMBERSHIP PLAN</th>
+                  <th>TOTAL FEE</th>
+                  <th>PAID / BALANCE</th>
+                  <th>VALID UNTIL</th>
+                  <th>STATUS</th>
+                  <th class="text-right">ACTIONS</th>
+                </tr>
+              </thead>
+              <tbody id="membersTableBody">
+                <!-- Dynamically loaded via admin.js -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Empty State -->
+          <div class="empty-state-box" id="emptyStateBox" style="display: none;">
+            <div class="empty-icon"><i class="fa-solid fa-user-slash"></i></div>
+            <h3>No Members Found</h3>
+            <p>No member records match your current filter or search criteria.</p>
+            <button class="btn btn-sm btn-primary-glow" id="emptyResetFilterBtn">Clear Filters</button>
+          </div>
+
+          <!-- Table Footer / Summary -->
+          <div class="table-card-footer">
+            <div class="footer-count-text">
+              Showing <span id="displayedMembersCount">0</span> of <span id="totalMembersCount">0</span> records
+            </div>
+            <div class="footer-legend">
+              <span class="legend-badge badge-paid"><i class="fa-solid fa-circle"></i> Paid in Full</span>
+              <span class="legend-badge badge-unpaid"><i class="fa-solid fa-circle"></i> Fee Pending</span>
+              <span class="legend-badge badge-partial"><i class="fa-solid fa-circle"></i> Partial Payment</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Modal 1: Add / Edit Member -->
+  <div class="admin-modal-overlay" id="memberModal">
+    <div class="admin-modal-card">
+      <div class="modal-card-header">
+        <div class="header-icon"><i class="fa-solid fa-id-card-clip"></i></div>
+        <div>
+          <h3 id="modalTitle">Register New Gym Member</h3>
+          <p id="modalSub">Enter member athlete details, assign membership plan and set fee status</p>
+        </div>
+        <button class="admin-modal-close" id="closeMemberModal">&times;</button>
+      </div>
+
+      <form id="memberForm" class="admin-modal-form">
+        <input type="hidden" id="editMemberId" value="">
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label for="formFullName">Full Name *</label>
+            <input type="text" id="formFullName" class="modal-input" placeholder="e.g. Rahul Sharma" required>
+          </div>
+
+          <div class="form-field">
+            <label for="formPhone">Phone Number *</label>
+            <input type="tel" id="formPhone" class="modal-input" placeholder="e.g. 9876543210" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label for="formEmail">Email Address</label>
+            <input type="email" id="formEmail" class="modal-input" placeholder="e.g. rahul@example.com">
+          </div>
+
+          <div class="form-field">
+            <label for="formGender">Gender</label>
+            <select id="formGender" class="modal-input">
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-field">
+            <label for="formPlan">Membership Tier *</label>
+            <select id="formPlan" class="modal-input" required>
+              <option value="Pro Athlete">Pro Athlete (3 Months)</option>
+              <option value="Standard Iron">Standard Iron (1 Month)</option>
+              <option value="VIP Beast Ultimate">VIP Beast (12 Months)</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="formTotalFee">Total Plan Fee (₹) *</label>
+            <input type="number" id="formTotalFee" class="modal-input" value="4999" min="0" required>
+          </div>
+
+          <div class="form-field">
+            <label for="formPaidAmount">Amount Paid Now (₹) *</label>
+            <input type="number" id="formPaidAmount" class="modal-input" value="4999" min="0" required>
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-field">
+            <label for="formPaymentMode">Payment Method</label>
+            <select id="formPaymentMode" class="modal-input">
+              <option value="UPI / QR">UPI (GPay / PhonePe / Paytm)</option>
+              <option value="Cash">Cash at Reception</option>
+              <option value="Credit / Debit Card">Credit / Debit Card</option>
+              <option value="Net Banking">Net Banking / Transfer</option>
+              <option value="Pending">Not Paid (Unpaid Due)</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="formStartDate">Enrollment Start Date</label>
+            <input type="date" id="formStartDate" class="modal-input" required>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="formEmergency">Emergency Contact / Health Notes</label>
+          <input type="text" id="formEmergency" class="modal-input" placeholder="e.g. +91 9988776655 (Brother) / No medical issues">
+        </div>
+
+        <!-- Calculated Balance Banner -->
+        <div class="modal-balance-banner" id="modalBalanceBanner">
+          <span>Balance Outstanding Due:</span>
+          <strong id="modalBalanceAmount">₹0</strong>
+        </div>
+
+        <div class="modal-card-actions">
+          <button type="button" class="btn btn-secondary" id="cancelMemberModal">Cancel</button>
+          <button type="submit" class="btn btn-primary-glow" id="saveMemberBtn">
+            <i class="fa-solid fa-floppy-disk"></i> Save Member Details
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 2: Record Payment / Clear Due -->
+  <div class="admin-modal-overlay" id="paymentModal">
+    <div class="admin-modal-card modal-sm">
+      <div class="modal-card-header">
+        <div class="header-icon icon-success"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+        <div>
+          <h3>Collect Fee Payment</h3>
+          <p>Record a fee collection transaction for this member</p>
+        </div>
+        <button class="admin-modal-close" id="closePaymentModal">&times;</button>
+      </div>
+
+      <form id="recordPaymentForm" class="admin-modal-form">
+        <input type="hidden" id="payMemberId" value="">
+        
+        <div class="member-payment-summary-box">
+          <div class="pay-sum-row">
+            <span>Athlete:</span>
+            <strong id="payMemberName">-</strong>
+          </div>
+          <div class="pay-sum-row">
+            <span>Current Outstanding Due:</span>
+            <span class="pay-due-tag" id="payCurrentDue">₹0</span>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <label for="collectAmount">Payment Amount to Collect (₹) *</label>
+          <input type="number" id="collectAmount" class="modal-input" min="1" required>
+        </div>
+
+        <div class="form-field">
+          <label for="collectMethod">Payment Method *</label>
+          <select id="collectMethod" class="modal-input">
+            <option value="UPI / QR">UPI (GPay / PhonePe / Paytm)</option>
+            <option value="Cash">Cash at Counter</option>
+            <option value="Credit / Debit Card">Credit / Debit Card (POS)</option>
+            <option value="Bank Transfer">Direct Bank Transfer</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="collectNotes">Reference / Transaction ID</label>
+          <input type="text" id="collectNotes" class="modal-input" placeholder="e.g. UPI Ref #91827498">
+        </div>
+
+        <div class="modal-card-actions">
+          <button type="button" class="btn btn-secondary" id="cancelPaymentModal">Cancel</button>
+          <button type="submit" class="btn btn-primary-glow">
+            <i class="fa-solid fa-receipt"></i> Confirm & Issue Receipt
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal 3: Official Gym Fee Invoice & Printable Receipt -->
+  <div class="admin-modal-overlay" id="receiptModal">
+    <div class="admin-modal-card modal-receipt-wrap">
+      <div class="receipt-actions-header no-print">
+        <div>
+          <h3>Member Fee Receipt</h3>
+          <p>Official tax receipt ready for printing or download</p>
+        </div>
+        <div class="receipt-btn-group">
+          <button class="btn btn-sm btn-primary-glow" id="printReceiptBtn">
+            <i class="fa-solid fa-print"></i> Print Receipt
+          </button>
+          <button class="admin-modal-close" id="closeReceiptModal">&times;</button>
+        </div>
+      </div>
+
+      <!-- Printable Invoice Sheet -->
+      <div class="receipt-sheet" id="printableReceiptContent">
+        <div class="receipt-header">
+          <div class="receipt-logo">
+            <i class="fa-solid fa-dumbbell"></i>
+            <div>
+              <h2>IRONPULSE FITNESS</h2>
+              <span>PREMIUM STRENGTH & RECOVERY CLUB</span>
+            </div>
+          </div>
+          <div class="receipt-invoice-info">
+            <div class="receipt-no" id="rcptNumber">REC-2026-0042</div>
+            <div class="receipt-date" id="rcptDate">Date: 08 Oct 2026</div>
+          </div>
+        </div>
+
+        <div class="receipt-divider"></div>
+
+        <div class="receipt-meta-grid">
+          <div class="meta-col">
+            <span class="meta-label">BILLED TO (MEMBER):</span>
+            <h4 id="rcptMemberName">Rahul Sharma</h4>
+            <p id="rcptMemberPhone">Phone: +91 98765 43210</p>
+            <p id="rcptMemberId">Member ID: IP-1001</p>
+          </div>
+          <div class="meta-col text-right">
+            <span class="meta-label">FACILITY LOCATION:</span>
+            <h4>IronPulse Flagship Club</h4>
+            <p>Sector 18, Commercial Gym Complex</p>
+            <p>GSTIN: 07AAAAA0000A1Z5</p>
+          </div>
+        </div>
+
+        <div class="receipt-table-wrap">
+          <table class="receipt-table">
+            <thead>
+              <tr>
+                <th>DESCRIPTION</th>
+                <th>DURATION</th>
+                <th>STATUS</th>
+                <th class="text-right">AMOUNT</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <strong id="rcptPlanName">Pro Athlete Membership</strong>
+                  <p class="rcpt-subtext">Unlimited gym floor access, sauna & trainer review</p>
+                </td>
+                <td id="rcptDuration">3 Months</td>
+                <td><span class="rcpt-status-pill" id="rcptStatusPill">PAID IN FULL</span></td>
+                <td class="text-right" id="rcptTotalFee">₹4,999.00</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="receipt-totals-box">
+          <div class="totals-row">
+            <span>Total Plan Fee:</span>
+            <span id="rcptSubTotal">₹4,999.00</span>
+          </div>
+          <div class="totals-row">
+            <span>Amount Paid:</span>
+            <span class="text-green" id="rcptPaidVal">₹4,999.00</span>
+          </div>
+          <div class="totals-row total-highlight">
+            <span>Balance Due:</span>
+            <span id="rcptDueVal">₹0.00</span>
+          </div>
+        </div>
+
+        <div class="receipt-footer-notes">
+          <div class="terms-notes">
+            <p><strong>Terms:</strong> Membership fees are non-refundable. Wear appropriate gym footwear at all times. Bring personal towels to all training zones.</p>
+            <p>Payment Mode: <strong id="rcptPayMethod">UPI / Online</strong></p>
+          </div>
+          <div class="receipt-stamp-box">
+            <div class="stamp-circle">
+              <i class="fa-solid fa-stamp"></i>
+              <span>VERIFIED PAID</span>
+            </div>
+            <p>Authorized Signature</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="adminToastContainer"></div>
+
+  <!-- Admin Controller Logic -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

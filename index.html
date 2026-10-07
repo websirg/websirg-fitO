@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRONPULSE FITNESS | Elite Strength & Conditioning Gym</title>
+  <meta name="description" content="Transform your body and mind at IronPulse Fitness. Premium equipment, certified coaches, functional strength training, and an elite gym community.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-announcement">
+        <span class="pulse-dot"></span>
+        <span><strong>NEW YEAR POWER SALE:</strong> Flat 40% OFF on Annual VIP Passes + Free Nutrition Consultation!</span>
+      </div>
+      <div class="top-actions">
+        <a href="tel:+919876543210" class="top-link"><i class="fa-solid fa-phone"></i> +91 98765 43210</a>
+        <a href="admin.html" class="portal-badge" id="ownerPortalBtn">
+          <i class="fa-solid fa-shield-halved"></i> Gym Owner / Admin Panel ↗
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <div class="logo-icon"><i class="fa-solid fa-dumbbell"></i></div>
+        <div class="logo-text">
+          <span class="brand-name">IRON<span>PULSE</span></span>
+          <span class="brand-sub">FITNESS & RECOVERY</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#home" class="nav-item active">Home</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#programs" class="nav-item">Programs</a>
+        <a href="#schedule" class="nav-item">Timetable</a>
+        <a href="#calculator" class="nav-item">BMI Tool</a>
+        <a href="#pricing" class="nav-item">Memberships</a>
+        <a href="#trainers" class="nav-item">Trainers</a>
+        <a href="#contact" class="nav-item">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="admin.html" class="btn btn-secondary-neon">
+          <i class="fa-solid fa-chart-pie"></i> Manage Gym
+        </a>
+        <a href="#pricing" class="btn btn-primary-glow" id="headerJoinBtn">
+          Join Now <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        <button class="mobile-toggle" id="menuToggle" aria-label="Toggle navigation">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section" id="home">
+    <div class="hero-bg-overlay"></div>
+    <div class="hero-ambient-glow"></div>
+    <div class="container hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <i class="fa-solid fa-fire"></i>
+          <span>Voted #1 Premium Fitness Club 2026</span>
+        </div>
+        <h1 class="hero-title">
+          FORGE YOUR <span class="gradient-text">ULTIMATE</span> PHYSIQUE & POWER.
+        </h1>
+        <p class="hero-description">
+          Experience state-of-the-art biomechanical equipment, Olympian-certified personal coaching, luxury recovery suites, and a community built to conquer limits.
+        </p>
+
+        <div class="hero-buttons">
+          <a href="#pricing" class="btn btn-primary-glow btn-lg">
+            <i class="fa-solid fa-bolt"></i> Start 7-Day Free Trial
+          </a>
+          <a href="#programs" class="btn btn-glass btn-lg">
+            Explore Programs <i class="fa-solid fa-angle-right"></i>
+          </a>
+        </div>
+
+        <!-- Hero Highlights Counters -->
+        <div class="hero-stats-grid">
+          <div class="hero-stat-card">
+            <h3 class="stat-num" data-target="850">850+</h3>
+            <p class="stat-label">Active Members</p>
+          </div>
+          <div class="hero-stat-card">
+            <h3 class="stat-num" data-target="24">24/7</h3>
+            <p class="stat-label">Biometric Access</p>
+          </div>
+          <div class="hero-stat-card">
+            <h3 class="stat-num" data-target="18">18+</h3>
+            <p class="stat-label">Elite Trainers</p>
+          </div>
+          <div class="hero-stat-card">
+            <h3 class="stat-num" data-target="99">99.4%</h3>
+            <p class="stat-label">Goal Success Rate</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card-stack">
+          <!-- Main Hero Showcase Graphic -->
+          <div class="hero-main-card">
+            <div class="hero-image-box">
+              <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop" alt="Gym Workout Training" class="hero-img">
+              <div class="img-gradient-scrim"></div>
+            </div>
+            
+            <!-- Floating Badge 1: Heart Rate -->
+            <div class="floating-badge badge-heart">
+              <div class="icon-wrap"><i class="fa-solid fa-heart-pulse"></i></div>
+              <div>
+                <span class="badge-title">Peak Heart Rate</span>
+                <span class="badge-val">168 BPM 🔥</span>
+              </div>
+            </div>
+
+            <!-- Floating Badge 2: Daily Calories -->
+            <div class="floating-badge badge-calories">
+              <div class="icon-wrap"><i class="fa-solid fa-fire-burner"></i></div>
+              <div>
+                <span class="badge-title">Session Burn</span>
+                <span class="badge-val">840 kcal</span>
+              </div>
+            </div>
+
+            <!-- Floating Card: Coach Live -->
+            <div class="floating-card-coach">
+              <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=200&auto=format&fit=crop" alt="Coach Avatar" class="coach-avatar">
+              <div>
+                <h4 class="coach-name">Coach Marcus Vance</h4>
+                <p class="coach-role">Head of Hypertrophy & Strength</p>
+              </div>
+              <span class="status-live-pill"><span class="live-dot"></span> In Gym</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Features Banner -->
+  <section class="features-bar">
+    <div class="container features-grid">
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-dumbbell"></i></div>
+        <div>
+          <h4>Hammer Strength Gear</h4>
+          <p>Imported biomechanical plates & rigs</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-spa"></i></div>
+        <div>
+          <h4>Ice Bath & Steam Sauna</h4>
+          <p>Accelerated muscle recovery lounge</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-apple-whole"></i></div>
+        <div>
+          <h4>Custom Nutrition Plans</h4>
+          <p>Macro-calculated diet & body scans</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon"><i class="fa-solid fa-qrcode"></i></div>
+        <div>
+          <h4>Smart Member App</h4>
+          <p>Attendance tracking & instant fee receipts</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About / Why Choose Us -->
+  <section class="section about-section" id="about">
+    <div class="container about-container">
+      <div class="about-gallery">
+        <div class="about-img-box img-tall">
+          <img src="https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?q=80&w=800&auto=format&fit=crop" alt="Weight training area">
+        </div>
+        <div class="about-img-box img-wide">
+          <img src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?q=80&w=800&auto=format&fit=crop" alt="Cardio zone">
+        </div>
+        <div class="experience-badge">
+          <h3>10+</h3>
+          <p>Years of Iron & Excellence</p>
+        </div>
+      </div>
+
+      <div class="about-content">
+        <span class="section-tag">WHO WE ARE</span>
+        <h2 class="section-title">NOT JUST A GYM. A <span class="gradient-text">HIGH-PERFORMANCE</span> SANCTUARY.</h2>
+        <p class="section-lead">
+          Founded with a mission to eradicate average fitness routines, IronPulse offers 15,000 sq.ft of pure training adrenaline, science-backed protocols, and luxury amenities.
+        </p>
+
+        <div class="about-checklist">
+          <div class="check-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <strong>Certified Personal Guidance:</strong> Every new member receives 3 complimentary PT check-ins and body fat composition testing.
+            </div>
+          </div>
+          <div class="check-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <strong>Uncrowded Peak Hours:</strong> Smart member quota limits ensure you never wait in line for a power rack or bench press.
+            </div>
+          </div>
+          <div class="check-item">
+            <i class="fa-solid fa-circle-check"></i>
+            <div>
+              <strong>Transparent Fee & Billing:</strong> Zero hidden registration fees. Automatic invoice receipts, online renewals, and real-time ledger.
+            </div>
+          </div>
+        </div>
+
+        <div class="about-action-row">
+          <a href="#schedule" class="btn btn-primary-glow">Check Class Schedule</a>
+          <a href="admin.html" class="link-admin-jump">
+            <i class="fa-solid fa-user-lock"></i> View Gym Management Portal →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Training Programs Section -->
+  <section class="section programs-section" id="programs">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">TARGETED DISCIPLINES</span>
+        <h2 class="section-title">PROGRAMS DESIGNED TO <span class="gradient-text">DOMINATE</span></h2>
+        <p class="section-sub">Whatever your ambition, our science-backed training tracks guarantee transformative results.</p>
+      </div>
+
+      <div class="programs-grid">
+        <!-- Program Card 1 -->
+        <div class="program-card">
+          <div class="program-img-wrap">
+            <img src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?q=80&w=700&auto=format&fit=crop" alt="Hypertrophy & Bodybuilding">
+            <span class="program-badge">STRENGTH</span>
+          </div>
+          <div class="program-body">
+            <h3>Hypertrophy & Bodybuilding</h3>
+            <p>Targeted mechanical tension, progressive overload, and high-volume isolation workouts to pack on lean mass.</p>
+            <ul class="program-bullets">
+              <li><i class="fa-solid fa-bolt"></i> 5-Day Push/Pull/Legs Split</li>
+              <li><i class="fa-solid fa-bolt"></i> Form & tempo optimization</li>
+              <li><i class="fa-solid fa-bolt"></i> Monthly hypertrophy scans</li>
+            </ul>
+            <a href="#pricing" class="btn btn-program">Join Track <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Program Card 2 -->
+        <div class="program-card featured-program">
+          <div class="program-img-wrap">
+            <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?q=80&w=700&auto=format&fit=crop" alt="CrossFit & Functional Fitness">
+            <span class="program-badge badge-hot"><i class="fa-solid fa-fire"></i> POPULAR</span>
+          </div>
+          <div class="program-body">
+            <h3>Functional CrossFit & WOD</h3>
+            <p>High-energy group conditioning incorporating kettlebells, Olympic barbell cycling, rowers, and plyometrics.</p>
+            <ul class="program-bullets">
+              <li><i class="fa-solid fa-bolt"></i> Daily Workout of the Day (WOD)</li>
+              <li><i class="fa-solid fa-bolt"></i> Athletic power & agility</li>
+              <li><i class="fa-solid fa-bolt"></i> Supportive battle community</li>
+            </ul>
+            <a href="#pricing" class="btn btn-primary-glow">Join Track <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Program Card 3 -->
+        <div class="program-card">
+          <div class="program-img-wrap">
+            <img src="https://images.unsplash.com/photo-1549576490-b0b4831ef60a?q=80&w=700&auto=format&fit=crop" alt="HIIT Fat Burn & Conditioning">
+            <span class="program-badge">CARDIO</span>
+          </div>
+          <div class="program-body">
+            <h3>HIIT & Metabolic Shred</h3>
+            <p>Torch stubborn fat while protecting hard-earned muscle with interval circuits and heart-rate monitoring zones.</p>
+            <ul class="program-bullets">
+              <li><i class="fa-solid fa-bolt"></i> 45-Minute intense burns</li>
+              <li><i class="fa-solid fa-bolt"></i> EPOC afterburn acceleration</li>
+              <li><i class="fa-solid fa-bolt"></i> Body fat cut meal planning</li>
+            </ul>
+            <a href="#pricing" class="btn btn-program">Join Track <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+
+        <!-- Program Card 4 -->
+        <div class="program-card">
+          <div class="program-img-wrap">
+            <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=700&auto=format&fit=crop" alt="Power Yoga & Mobility">
+            <span class="program-badge">RECOVERY</span>
+          </div>
+          <div class="program-body">
+            <h3>Power Yoga & Deep Mobility</h3>
+            <p>Unlock joint stiffness, prevent lifting injuries, and enhance athletic posture with deep fascial tissue restoration.</p>
+            <ul class="program-bullets">
+              <li><i class="fa-solid fa-bolt"></i> Dynamic spinal decompression</li>
+              <li><i class="fa-solid fa-bolt"></i> Breathwork & nervous balance</li>
+              <li><i class="fa-solid fa-bolt"></i> Infrared heated studio</li>
+            </ul>
+            <a href="#pricing" class="btn btn-program">Join Track <i class="fa-solid fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Timetable / Class Schedule -->
+  <section class="section schedule-section" id="schedule">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">WEEKLY WORKOUT GRID</span>
+        <h2 class="section-title">DAILY CLASS <span class="gradient-text">SCHEDULE</span></h2>
+        <p class="section-sub">Choose your preferred day to view our scheduled group workouts, coaches, and open slots.</p>
+      </div>
+
+      <!-- Schedule Day Filter Tabs -->
+      <div class="schedule-tabs" id="scheduleTabs">
+        <button class="tab-btn active" data-day="monday">Monday</button>
+        <button class="tab-btn" data-day="tuesday">Tuesday</button>
+        <button class="tab-btn" data-day="wednesday">Wednesday</button>
+        <button class="tab-btn" data-day="thursday">Thursday</button>
+        <button class="tab-btn" data-day="friday">Friday</button>
+        <button class="tab-btn" data-day="saturday">Saturday</button>
+      </div>
+
+      <!-- Schedule Table Box -->
+      <div class="schedule-container" id="scheduleContent">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive BMI & Calorie Calculator Section -->
+  <section class="section calculator-section" id="calculator">
+    <div class="container">
+      <div class="calc-wrapper">
+        <div class="calc-intro">
+          <span class="section-tag">SMART FITNESS TOOL</span>
+          <h2 class="section-title">CALCULATE YOUR <span class="gradient-text">BMI & GOALS</span></h2>
+          <p>
+            Find out where you stand on the body composition spectrum. Use our instant health calculator to receive tailored training and caloric advice from IronPulse coaches.
+          </p>
+          <div class="bmi-scale-legend">
+            <div class="legend-item"><span class="legend-color under"></span> Underweight (&lt; 18.5)</div>
+            <div class="legend-item"><span class="legend-color normal"></span> Healthy Normal (18.5 - 24.9)</div>
+            <div class="legend-item"><span class="legend-color over"></span> Overweight (25 - 29.9)</div>
+            <div class="legend-item"><span class="legend-color obese"></span> Obese (30+)</div>
+          </div>
+        </div>
+
+        <div class="calc-card">
+          <form id="bmiForm" class="bmi-form">
+            <div class="form-row-2">
+              <div class="input-group">
+                <label for="bmiGender">Gender</label>
+                <select id="bmiGender" class="form-control">
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="bmiAge">Age</label>
+                <input type="number" id="bmiAge" class="form-control" value="25" min="14" max="90">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="input-group">
+                <label for="bmiHeight">Height (cm)</label>
+                <input type="number" id="bmiHeight" class="form-control" value="175" placeholder="e.g. 175" required>
+              </div>
+              <div class="input-group">
+                <label for="bmiWeight">Weight (kg)</label>
+                <input type="number" id="bmiWeight" class="form-control" value="72" placeholder="e.g. 72" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label for="bmiGoal">Primary Fitness Goal</label>
+              <select id="bmiGoal" class="form-control">
+                <option value="muscle">Hypertrophy (Lean Muscle Building)</option>
+                <option value="fatloss">Aggressive Fat Loss & Shred</option>
+                <option value="strength">Raw Strength & Powerlifting</option>
+                <option value="endurance">Endurance & Athletic Fitness</option>
+              </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary-glow btn-block">
+              <i class="fa-solid fa-calculator"></i> Calculate My BMI Score
+            </button>
+          </form>
+
+          <!-- Result Card Display -->
+          <div class="bmi-result-card" id="bmiResultBox" style="display: none;">
+            <div class="bmi-score-header">
+              <div>
+                <span class="result-label">YOUR BODY MASS INDEX</span>
+                <h3 class="bmi-score-number" id="bmiValueDisplay">23.5</h3>
+              </div>
+              <div class="bmi-badge-pill" id="bmiCategoryBadge">NORMAL WEIGHT</div>
+            </div>
+
+            <div class="bmi-bar-track">
+              <div class="bmi-bar-fill" id="bmiBarFill" style="width: 50%;"></div>
+            </div>
+
+            <div class="bmi-recommendation" id="bmiAdviceText">
+              Great condition! Focus on maintaining lean muscle mass with 1.8g protein per kg of bodyweight and progressive resistance training.
+            </div>
+
+            <a href="#pricing" class="btn btn-sm btn-outline-neon">Enroll in Recommended Program →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Membership Pricing Section -->
+  <section class="section pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">INVEST IN YOUR SELF</span>
+        <h2 class="section-title">TRANSPARENT <span class="gradient-text">MEMBERSHIP</span> TIERS</h2>
+        <p class="section-sub">No locked contracts, no hidden maintenance charges. Every plan includes full gym floor access.</p>
+      </div>
+
+      <div class="pricing-grid">
+        <!-- Tier 1: Starter -->
+        <div class="price-card">
+          <div class="price-header">
+            <span class="plan-type">MONTHLY PASS</span>
+            <h3 class="plan-name">Standard Iron</h3>
+            <div class="price-figure">
+              <span class="currency">₹</span>
+              <span class="amount">1,999</span>
+              <span class="period">/month</span>
+            </div>
+            <p class="price-tagline">Perfect for beginners and short-term lifters</p>
+          </div>
+
+          <div class="price-body">
+            <ul class="price-features">
+              <li><i class="fa-solid fa-check"></i> Full gym floor & weight zone access</li>
+              <li><i class="fa-solid fa-check"></i> Standard locker & shower usage</li>
+              <li><i class="fa-solid fa-check"></i> 1 Free Trainer fitness evaluation</li>
+              <li><i class="fa-solid fa-check"></i> Mobile app workout logger</li>
+              <li class="disabled"><i class="fa-solid fa-xmark"></i> Recovery sauna & steam bath</li>
+              <li class="disabled"><i class="fa-solid fa-xmark"></i> 1-on-1 Personal coaching</li>
+            </ul>
+          </div>
+
+          <div class="price-footer">
+            <button class="btn btn-glass btn-block join-plan-btn" data-plan="Standard Iron" data-fee="1999" data-duration="1 Month">
+              Select Standard
+            </button>
+          </div>
+        </div>
+
+        <!-- Tier 2: Pro Athlete (Featured) -->
+        <div class="price-card featured-tier">
+          <div class="popular-ribbon">MOST POPULAR</div>
+          <div class="price-header">
+            <span class="plan-type">QUARTERLY (3 MONTHS)</span>
+            <h3 class="plan-name">Pro Athlete</h3>
+            <div class="price-figure">
+              <span class="currency">₹</span>
+              <span class="amount">4,999</span>
+              <span class="period">/quarter</span>
+            </div>
+            <p class="price-tagline">Only ₹1,666/mo (Save ₹1,000 on 3 months)</p>
+          </div>
+
+          <div class="price-body">
+            <ul class="price-features">
+              <li><i class="fa-solid fa-check"></i> <strong>24/7 Unlimited gym floor access</strong></li>
+              <li><i class="fa-solid fa-check"></i> All group classes (HIIT, CrossFit, Yoga)</li>
+              <li><i class="fa-solid fa-check"></i> Weekly Steam sauna & Ice bath recovery</li>
+              <li><i class="fa-solid fa-check"></i> InBody 570 Bio-impedance analysis</li>
+              <li><i class="fa-solid fa-check"></i> Custom Nutrition & Macro chart</li>
+              <li class="disabled"><i class="fa-solid fa-xmark"></i> Dedicated personal coach</li>
+            </ul>
+          </div>
+
+          <div class="price-footer">
+            <button class="btn btn-primary-glow btn-block join-plan-btn" data-plan="Pro Athlete" data-fee="4999" data-duration="3 Months">
+              Select Pro Athlete
+            </button>
+          </div>
+        </div>
+
+        <!-- Tier 3: VIP Beast -->
+        <div class="price-card vip-tier">
+          <div class="price-header">
+            <span class="plan-type">ANNUAL VIP (12 MONTHS)</span>
+            <h3 class="plan-name">VIP Beast Ultimate</h3>
+            <div class="price-figure">
+              <span class="currency">₹</span>
+              <span class="amount">14,999</span>
+              <span class="period">/year</span>
+            </div>
+            <p class="price-tagline">Only ₹1,249/mo (Massive 38% annual discount)</p>
+          </div>
+
+          <div class="price-body">
+            <ul class="price-features">
+              <li><i class="fa-solid fa-check"></i> <strong>Everything in Pro Athlete + VIP Perks</strong></li>
+              <li><i class="fa-solid fa-check"></i> 12 Complimentary Personal Training sessions</li>
+              <li><i class="fa-solid fa-check"></i> Unlimited Steam, Sauna & Cryo recovery</li>
+              <li><i class="fa-solid fa-check"></i> Private VIP locker & complimentary kit bag</li>
+              <li><i class="fa-solid fa-check"></i> Free protein shake per workout at our cafe</li>
+              <li><i class="fa-solid fa-check"></i> 2 Guest passes per month for friends</li>
+            </ul>
+          </div>
+
+          <div class="price-footer">
+            <button class="btn btn-glass btn-block join-plan-btn" data-plan="VIP Beast Ultimate" data-fee="14999" data-duration="12 Months">
+              Claim VIP Beast
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Elite Coaches / Trainers Section -->
+  <section class="section trainers-section" id="trainers">
+    <div class="container">
+      <div class="section-header text-center">
+        <span class="section-tag">WORLD CLASS MENTORSHIP</span>
+        <h2 class="section-title">MEET OUR <span class="gradient-text">ELITE COACHES</span></h2>
+        <p class="section-sub">Guided by national bodybuilding champions, certified exercise physiologists, and physical therapy experts.</p>
+      </div>
+
+      <div class="trainers-grid">
+        <!-- Trainer 1 -->
+        <div class="trainer-card">
+          <div class="trainer-photo">
+            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=700&auto=format&fit=crop" alt="Coach Marcus Vance">
+            <div class="trainer-socials">
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Marcus Vance</h3>
+            <span class="trainer-spec">Head of Hypertrophy & Power</span>
+            <p class="trainer-desc">12+ years experience preparing pro athletes and classic physique champions.</p>
+          </div>
+        </div>
+
+        <!-- Trainer 2 -->
+        <div class="trainer-card">
+          <div class="trainer-photo">
+            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=700&auto=format&fit=crop" alt="Coach Elena Rostova">
+            <div class="trainer-socials">
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Elena Rostova</h3>
+            <span class="trainer-spec">CrossFit & High-Intensity Conditioning</span>
+            <p class="trainer-desc">Certified Level 3 CrossFit Coach specializing in metabolic capacity and sprint power.</p>
+          </div>
+        </div>
+
+        <!-- Trainer 3 -->
+        <div class="trainer-card">
+          <div class="trainer-photo">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop" alt="Coach Priya Sharma">
+            <div class="trainer-socials">
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Priya Sharma</h3>
+            <span class="trainer-spec">Clinical Nutritionist & Flexibility</span>
+            <p class="trainer-desc">Specialist in hormone balancing, fat loss dietetics, and restorative functional yoga.</p>
+          </div>
+        </div>
+
+        <!-- Trainer 4 -->
+        <div class="trainer-card">
+          <div class="trainer-photo">
+            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=700&auto=format&fit=crop" alt="Coach Devraj Singh">
+            <div class="trainer-socials">
+              <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            </div>
+          </div>
+          <div class="trainer-info">
+            <h3 class="trainer-name">Devraj Singh</h3>
+            <span class="trainer-spec">Strength & Raw Powerlifting Coach</span>
+            <p class="trainer-desc">National deadlift record holder with a focus on spine mechanics and safe PR progression.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Panel Teaser Banner (Prominent for User) -->
+  <section class="admin-teaser-section">
+    <div class="container">
+      <div class="admin-teaser-card">
+        <div class="teaser-left">
+          <div class="teaser-icon">
+            <i class="fa-solid fa-chart-line"></i>
+          </div>
+          <div>
+            <span class="teaser-subtitle">INTERNAL MANAGEMENT SUITE</span>
+            <h3 class="teaser-title">Gym Owners & Reception Management Panel</h3>
+            <p class="teaser-text">
+              Real-time member registrations, active/unpaid fee status tracking, instant printable payment receipts, expiry alerts, and complete revenue analytics.
+            </p>
+          </div>
+        </div>
+        <div class="teaser-right">
+          <a href="admin.html" class="btn btn-primary-glow btn-lg">
+            <i class="fa-solid fa-table-columns"></i> Open Gym Admin Panel
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact & Location Section -->
+  <section class="section contact-section" id="contact">
+    <div class="container contact-container">
+      <div class="contact-info-card">
+        <span class="section-tag">FIND US TODAY</span>
+        <h2 class="section-title">COME VISIT <span class="gradient-text">THE IRON FORGE</span></h2>
+        <p>Drop in for a complimentary tour and sample training session. Our team is available 7 days a week.</p>
+
+        <div class="contact-details">
+          <div class="contact-line">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <strong>Location:</strong>
+              <p>Plot 42, Fitness Boulevard, Sector 18, Commercial Hub, New Delhi / Azamgarh</p>
+            </div>
+          </div>
+          <div class="contact-line">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <strong>Call / WhatsApp:</strong>
+              <p>+91 98765 43210 / +91 91704 61130</p>
+            </div>
+          </div>
+          <div class="contact-line">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <strong>Email:</strong>
+              <p>support@ironpulsefitness.com</p>
+            </div>
+          </div>
+          <div class="contact-line">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <strong>Operating Hours:</strong>
+              <p>Mon - Sat: 5:30 AM - 11:00 PM | Sun: 7:00 AM - 8:00 PM</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h3 class="form-heading">Send Us an Inquiry</h3>
+        <p class="form-sub">We will respond within 15 minutes with membership passes.</p>
+        <form id="contactForm">
+          <div class="input-group">
+            <label for="contactName">Full Name</label>
+            <input type="text" id="contactName" class="form-control" placeholder="John Doe" required>
+          </div>
+          <div class="form-row-2">
+            <div class="input-group">
+              <label for="contactEmail">Email Address</label>
+              <input type="email" id="contactEmail" class="form-control" placeholder="john@example.com" required>
+            </div>
+            <div class="input-group">
+              <label for="contactPhone">Phone Number</label>
+              <input type="tel" id="contactPhone" class="form-control" placeholder="+91 9876543210" required>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="contactMsg">Message / Specific Goals</label>
+            <textarea id="contactMsg" class="form-control" rows="3" placeholder="Tell us about your fitness goal or requested plan..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary-glow btn-block">
+            <i class="fa-solid fa-paper-plane"></i> Send Request
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <a href="index.html" class="brand-logo">
+          <div class="logo-icon"><i class="fa-solid fa-dumbbell"></i></div>
+          <div class="logo-text">
+            <span class="brand-name">IRON<span>PULSE</span></span>
+            <span class="brand-sub">FITNESS & RECOVERY</span>
+          </div>
+        </a>
+        <p class="footer-bio">
+          Dedicated to transforming physical endurance, aesthetic symmetry, and disciplined lifestyles through modern sports science.
+        </p>
+        <div class="footer-social-links">
+          <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+          <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+          <a href="#" aria-label="Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        </div>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Our Gym</a></li>
+          <li><a href="#programs">Training Disciplines</a></li>
+          <li><a href="#schedule">Class Schedule</a></li>
+          <li><a href="#pricing">Membership Plans</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Owner Tools</h4>
+        <ul>
+          <li><a href="admin.html"><strong>Gym Management Panel</strong></a></li>
+          <li><a href="admin.html?tab=unpaid">Pending Fee Tracker</a></li>
+          <li><a href="admin.html?action=new">Register New Member</a></li>
+          <li><a href="admin.html?tab=paid">Revenue Collections</a></li>
+          <li><a href="#calculator">BMI Calculator Tool</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links-col">
+        <h4>Facility Highlights</h4>
+        <p class="facility-pill"><i class="fa-solid fa-snowflake"></i> 100% Central AC</p>
+        <p class="facility-pill"><i class="fa-solid fa-car"></i> Valet Parking Available</p>
+        <p class="facility-pill"><i class="fa-solid fa-wifi"></i> High-Speed Member WiFi</p>
+        <p class="facility-pill"><i class="fa-solid fa-shield-virus"></i> Sanitized Every 2 Hours</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container footer-bottom-inner">
+        <p>&copy; 2026 IronPulse Fitness Ltd. All rights reserved.</p>
+        <div class="legal-links">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+          <a href="admin.html">Staff Portal</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Quick Join / Register Modal -->
+  <div class="modal-overlay" id="joinModal">
+    <div class="modal-container">
+      <button class="modal-close" id="closeJoinModal">&times;</button>
+      <div class="modal-header">
+        <div class="badge-icon"><i class="fa-solid fa-id-card"></i></div>
+        <h3>Join IronPulse Today</h3>
+        <p>Fill out the details below to lock in your membership</p>
+      </div>
+      <form id="publicJoinForm" class="modal-form">
+        <div class="input-group">
+          <label for="regFullName">Full Name *</label>
+          <input type="text" id="regFullName" class="form-control" placeholder="e.g. Vikramaditya Singh" required>
+        </div>
+        <div class="form-row-2">
+          <div class="input-group">
+            <label for="regPhone">Phone Number *</label>
+            <input type="tel" id="regPhone" class="form-control" placeholder="e.g. 9876543210" required>
+          </div>
+          <div class="input-group">
+            <label for="regEmail">Email Address</label>
+            <input type="email" id="regEmail" class="form-control" placeholder="e.g. vikram@gmail.com" required>
+          </div>
+        </div>
+        <div class="form-row-2">
+          <div class="input-group">
+            <label for="regPlan">Membership Tier *</label>
+            <select id="regPlan" class="form-control">
+              <option value="Pro Athlete|4999">Pro Athlete (3 Months) - ₹4,999</option>
+              <option value="Standard Iron|1999">Standard Iron (1 Month) - ₹1,999</option>
+              <option value="VIP Beast Ultimate|14999">VIP Beast Ultimate (12 Months) - ₹14,999</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="regPayStatus">Initial Payment Status</label>
+            <select id="regPayStatus" class="form-control">
+              <option value="Paid">Paid in Full</option>
+              <option value="Unpaid">Pay at Gym (Unpaid / Due)</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary-glow btn-block">
+          <i class="fa-solid fa-check"></i> Complete Registration & Save to Panel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>
