@@ -1,6 +1,6 @@
 /* ==========================================================================
    IRONPULSE FITNESS & WELLNESS CLUB - COMPLETE DESIGN SYSTEM (style.css)
-   Ultra-Premium Modern Dark Fitness Experience
+   Ultra-Premium Multi-Page Dark Fitness Experience & Mobile-First Optimization
    ========================================================================== */
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -10,7 +10,7 @@
   --bg-surface: #0E1420;
   --bg-card: #141C2B;
   --bg-card-hover: #1A2438;
-  --bg-glass: rgba(14, 20, 32, 0.85);
+  --bg-glass: rgba(14, 20, 32, 0.88);
   
   --primary: #FF4B00;
   --primary-hover: #FF6520;
@@ -289,7 +289,7 @@ img {
 }
 
 /* ==========================================================================
-   NAVBAR
+   NAVBAR (Multi-page Sticky)
    ========================================================================== */
 .navbar {
   position: sticky;
@@ -297,7 +297,7 @@ img {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background: rgba(8, 11, 17, 0.92);
+  background: rgba(8, 11, 17, 0.94);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--border);
@@ -367,7 +367,7 @@ img {
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
 }
 
 .nav-item {
@@ -408,17 +408,92 @@ img {
 
 .mobile-toggle {
   display: none;
-  background: transparent;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-light);
   color: #FFFFFF;
-  font-size: 1.2rem;
-  padding: 8px 12px;
+  font-size: 1.25rem;
+  padding: 8px 14px;
   border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: var(--transition);
+}
+
+.mobile-toggle:hover {
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
 /* ==========================================================================
-   HERO SECTION
+   PAGE HERO BANNER (For Subpages: About, Programs, Schedule, Pricing, Contact)
+   ========================================================================== */
+.page-hero-banner {
+  position: relative;
+  padding: 70px 0 60px;
+  background: linear-gradient(180deg, rgba(14, 20, 32, 0.95) 0%, rgba(8, 11, 17, 1) 100%);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  text-align: center;
+}
+
+.page-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 75, 0, 0.2) 0%, transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+.page-hero-title {
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.page-hero-lead {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 650px;
+  margin: 0 auto 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.breadcrumb-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--bg-card);
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  position: relative;
+  z-index: 2;
+}
+
+.breadcrumb-nav a {
+  color: var(--text-muted);
+}
+
+.breadcrumb-nav a:hover {
+  color: var(--primary);
+}
+
+.breadcrumb-nav span {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* ==========================================================================
+   HOME HERO SECTION
    ========================================================================== */
 .hero-section {
   position: relative;
@@ -521,7 +596,7 @@ img {
   letter-spacing: 0.5px;
 }
 
-/* Hero Visual & Floating Cards */
+/* Hero Visual & Floating Badges */
 .hero-visual {
   position: relative;
   display: flex;
@@ -739,7 +814,7 @@ img {
    SECTIONS GENERAL
    ========================================================================== */
 .section {
-  padding: 90px 0;
+  padding: 85px 0;
   position: relative;
 }
 
@@ -1503,20 +1578,24 @@ img {
 }
 
 /* ==========================================================================
-   CONTACT
+   GOOGLE MAPS CONTAINER & CONTACT SECTION
    ========================================================================== */
 .contact-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 50px;
+  gap: 40px;
+  margin-bottom: 40px;
 }
 
 .contact-info-card {
-  padding-right: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 38px;
 }
 
 .contact-details {
-  margin-top: 32px;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -1530,20 +1609,26 @@ img {
 
 .contact-line i {
   color: var(--primary);
-  font-size: 1.2rem;
-  margin-top: 4px;
+  font-size: 1.25rem;
+  margin-top: 3px;
+  width: 24px;
+  text-align: center;
 }
 
 .contact-line strong {
   display: block;
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   color: #FFFFFF;
   margin-bottom: 2px;
 }
 
-.contact-line p {
+.contact-line p, .contact-line a {
   font-size: 0.9rem;
   color: var(--text-muted);
+}
+
+.contact-line a:hover {
+  color: var(--primary);
 }
 
 .contact-form-card {
@@ -1563,6 +1648,78 @@ img {
   font-size: 0.88rem;
   color: var(--text-muted);
   margin-bottom: 24px;
+}
+
+/* Google Map Wrapper */
+.map-section {
+  padding-bottom: 80px;
+}
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-card);
+  background: #0B0E17;
+}
+
+.map-iframe {
+  width: 100%;
+  height: 440px;
+  border: 0;
+  display: block;
+  filter: invert(90%) hue-rotate(180deg) contrast(90%);
+  transition: filter 0.3s ease;
+}
+
+.map-wrapper:hover .map-iframe {
+  filter: invert(85%) hue-rotate(180deg) contrast(95%);
+}
+
+.map-overlay-badge {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+}
+
+.map-badge-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.map-overlay-badge h4 {
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.map-overlay-badge p {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.map-directions-btn {
+  margin-left: 12px;
+  padding: 6px 14px;
+  font-size: 0.8rem;
 }
 
 /* ==========================================================================
@@ -1666,6 +1823,43 @@ img {
 
 .legal-links a:hover {
   color: #FFFFFF;
+}
+
+/* ==========================================================================
+   MOBILE FLOATING BOTTOM ACTION BAR
+   ========================================================================== */
+.mobile-bottom-bar {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(8, 11, 17, 0.98);
+  backdrop-filter: blur(16px);
+  border-top: 1px solid var(--border);
+  padding: 10px 16px;
+  z-index: 1500;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.mobile-bottom-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.mobile-bottom-btn {
+  flex: 1;
+  text-align: center;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
 /* ==========================================================================
@@ -1779,7 +1973,7 @@ img {
 }
 
 /* ==========================================================================
-   RESPONSIVENESS
+   RESPONSIVENESS & MOBILE-FIRST OPTIMIZATION
    ========================================================================== */
 @media (max-width: 1024px) {
   .hero-container,
@@ -1797,6 +1991,8 @@ img {
   
   .pricing-grid {
     grid-template-columns: 1fr;
+    max-width: 500px;
+    margin: 0 auto;
   }
   
   .featured-tier {
@@ -1827,26 +2023,56 @@ img {
 }
 
 @media (max-width: 768px) {
+  /* Mobile Navigation Slide Down */
   .nav-links {
     display: none;
     position: absolute;
     top: 100%;
     left: 0;
     width: 100%;
-    background: var(--bg-surface);
+    background: #0B0E17;
     flex-direction: column;
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--border);
+    padding: 24px;
+    gap: 16px;
+    border-bottom: 2px solid var(--primary);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
   }
   
   .nav-links.open {
     display: flex;
   }
   
+  .nav-item {
+    font-size: 1.1rem;
+    padding: 8px 0;
+  }
+  
   .mobile-toggle {
     display: block;
   }
   
+  .nav-actions .btn {
+    display: none; /* Shown in drawer or mobile bottom bar */
+  }
+  
+  .top-bar-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .top-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero-section {
+    padding: 40px 0;
+  }
+  
+  .hero-title {
+    font-size: 2.2rem;
+  }
+
   .hero-stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -1867,5 +2093,23 @@ img {
   
   .footer-content {
     grid-template-columns: 1fr;
+  }
+  
+  .map-iframe {
+    height: 320px;
+  }
+  
+  .map-overlay-badge {
+    position: static;
+    margin: 12px;
+  }
+  
+  /* Mobile Floating Bottom Bar */
+  .mobile-bottom-bar {
+    display: block;
+  }
+  
+  body {
+    padding-bottom: 70px; /* Space for bottom bar */
   }
 }

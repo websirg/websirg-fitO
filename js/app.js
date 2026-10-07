@@ -317,7 +317,7 @@ function setupContactForm() {
   });
 }
 
-// Sticky Navbar Scroll Effect
+// Sticky Navbar Scroll & Mobile Navigation Handler
 function setupNavbar() {
   const navbar = document.getElementById("navbar");
   const menuToggle = document.getElementById("menuToggle");
@@ -332,10 +332,48 @@ function setupNavbar() {
   });
 
   if (menuToggle && navLinks) {
-    menuToggle.addEventListener("click", () => {
+    menuToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
       navLinks.classList.toggle("open");
+      const icon = menuToggle.querySelector("i");
+      if (icon) {
+        if (navLinks.classList.contains("open")) {
+          icon.className = "fa-solid fa-xmark";
+        } else {
+          icon.className = "fa-solid fa-bars";
+        }
+      }
+    });
+
+    // Close when clicking outside
+    document.addEventListener("click", (e) => {
+      if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+        navLinks.classList.remove("open");
+        const icon = menuToggle.querySelector("i");
+        if (icon) icon.className = "fa-solid fa-bars";
+      }
+    });
+
+    // Close when clicking a link
+    navLinks.querySelectorAll(".nav-item").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        const icon = menuToggle.querySelector("i");
+        if (icon) icon.className = "fa-solid fa-bars";
+      });
     });
   }
+
+  // Active page detection
+  const currentPath = window.location.pathname.split("/").pop() || "index.html";
+  document.querySelectorAll(".nav-links .nav-item").forEach(item => {
+    const href = item.getAttribute("href");
+    if (href === currentPath || (currentPath === "" && href === "index.html")) {
+      item.classList.add("active");
+    } else if (href && !href.startsWith("#") && href !== currentPath) {
+      item.classList.remove("active");
+    }
+  });
 }
 
 // Schedule Tab Switching
