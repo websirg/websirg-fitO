@@ -1,9 +1,51 @@
 /**
  * IRONPULSE FITNESS - Admin Management & Fee Controller
- * Core State, LocalStorage Persistence, Fee Accounting & Printable Receipts
+ * Core State, LocalStorage Persistence, Fee Accounting, Aadhaar KYC & Printable Receipts
  */
 
-// Initial Seed Members Data (preloaded if localStorage is empty)
+// Helper to generate a realistic SVG Aadhaar Card mockup data URL
+function generateAadhaarMockSvg(name, aadhaarNum, id) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="380" viewBox="0 0 600 380">
+    <defs>
+      <linearGradient id="flagGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%" stop-color="#FF9933" />
+        <stop offset="50%" stop-color="#FFFFFF" />
+        <stop offset="100%" stop-color="#138808" />
+      </linearGradient>
+    </defs>
+    <!-- Background Card -->
+    <rect width="600" height="380" rx="16" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="2"/>
+    <rect x="0" y="0" width="600" height="12" rx="6" fill="url(#flagGrad)"/>
+    
+    <!-- Top Header -->
+    <text x="300" y="45" font-family="sans-serif" font-size="16" font-weight="bold" fill="#0F172A" text-anchor="middle">GOVERNMENT OF INDIA / UNIQUE IDENTIFICATION AUTHORITY</text>
+    <text x="300" y="65" font-family="sans-serif" font-size="12" fill="#64748B" text-anchor="middle">MEMBER VERIFIED KYC PROOF OF IDENTITY</text>
+    <line x1="30" y1="78" x2="570" y2="78" stroke="#E2E8F0" stroke-width="1.5"/>
+    
+    <!-- Photo Box -->
+    <rect x="40" y="100" width="120" height="150" rx="8" fill="#E2E8F0" stroke="#94A3B8" stroke-width="1"/>
+    <circle cx="100" cy="150" r="30" fill="#CBD5E1"/>
+    <path d="M60 230 C60 195, 140 195, 140 230 Z" fill="#94A3B8"/>
+    <text x="100" y="270" font-family="sans-serif" font-size="11" fill="#64748B" text-anchor="middle">PHOTO</text>
+    
+    <!-- Details -->
+    <text x="180" y="125" font-family="sans-serif" font-size="13" fill="#64748B">NAME:</text>
+    <text x="180" y="148" font-family="sans-serif" font-size="18" font-weight="bold" fill="#0F172A">${name}</text>
+    
+    <text x="180" y="180" font-family="sans-serif" font-size="13" fill="#64748B">GYM MEMBER ID / REF:</text>
+    <text x="180" y="200" font-family="sans-serif" font-size="15" font-weight="bold" fill="#FF4B00">${id}</text>
+    
+    <text x="180" y="230" font-family="sans-serif" font-size="13" fill="#64748B">VERIFICATION STATUS:</text>
+    <text x="180" y="250" font-family="sans-serif" font-size="14" font-weight="bold" fill="#10B981">AADHAAR BIOMETRIC VERIFIED</text>
+    
+    <!-- Aadhaar Number Bar -->
+    <rect x="30" y="295" width="540" height="55" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="300" y="333" font-family="monospace" font-size="26" font-weight="bold" fill="#B45309" text-anchor="middle" letter-spacing="4">${aadhaarNum}</text>
+  </svg>`;
+  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+}
+
+// Initial Seed Members Data (preloaded with Aadhaar numbers and KYC document previews)
 const DEFAULT_MEMBERS = [
   {
     id: "IP-1001",
@@ -11,6 +53,8 @@ const DEFAULT_MEMBERS = [
     phone: "9876543210",
     email: "vikram.rathore@gmail.com",
     gender: "Male",
+    aadhaarNumber: "5482 9102 3841",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Vikramaditya Rathore", "5482 9102 3841", "IP-1001"),
     plan: "Pro Athlete",
     duration: "3 Months",
     totalFee: 4999,
@@ -28,6 +72,8 @@ const DEFAULT_MEMBERS = [
     phone: "9170461130",
     email: "amanpreet@yahoo.com",
     gender: "Male",
+    aadhaarNumber: "7821 4452 9013",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Aman Preet Singh", "7821 4452 9013", "IP-1002"),
     plan: "Standard Iron",
     duration: "1 Month",
     totalFee: 1999,
@@ -45,6 +91,8 @@ const DEFAULT_MEMBERS = [
     phone: "9811223344",
     email: "sneha.mukh@outlook.com",
     gender: "Female",
+    aadhaarNumber: "3290 8122 5541",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Sneha Mukherjee", "3290 8122 5541", "IP-1003"),
     plan: "VIP Beast Ultimate",
     duration: "12 Months",
     totalFee: 14999,
@@ -62,6 +110,8 @@ const DEFAULT_MEMBERS = [
     phone: "9765432109",
     email: "rohan.kulkarni@gmail.com",
     gender: "Male",
+    aadhaarNumber: "6102 7741 8932",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Rohan Kulkarni", "6102 7741 8932", "IP-1004"),
     plan: "Pro Athlete",
     duration: "3 Months",
     totalFee: 4999,
@@ -79,13 +129,15 @@ const DEFAULT_MEMBERS = [
     phone: "9823456781",
     email: "ananya.iyer@gmail.com",
     gender: "Female",
+    aadhaarNumber: "8891 2341 0029",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Ananya Iyer", "8891 2341 0029", "IP-1005"),
     plan: "Standard Iron",
     duration: "1 Month",
     totalFee: 1999,
     paidAmount: 1999,
     paymentMode: "UPI / QR",
     startDate: "2026-09-12",
-    expiryDate: "2026-10-12", // Expiring within 4 days!
+    expiryDate: "2026-10-12",
     emergency: "+91 9711224455 (Mother)",
     status: "Paid",
     createdAt: "2026-09-12T08:20:00Z"
@@ -96,6 +148,8 @@ const DEFAULT_MEMBERS = [
     phone: "9899112233",
     email: "karan.verma@techmail.com",
     gender: "Male",
+    aadhaarNumber: "4501 9283 1172",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Karan Johar Verma", "4501 9283 1172", "IP-1006"),
     plan: "VIP Beast Ultimate",
     duration: "12 Months",
     totalFee: 14999,
@@ -113,6 +167,8 @@ const DEFAULT_MEMBERS = [
     phone: "9871122334",
     email: "simran.kaur99@gmail.com",
     gender: "Female",
+    aadhaarNumber: "9123 6645 8820",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Simran Kaur", "9123 6645 8820", "IP-1007"),
     plan: "Pro Athlete",
     duration: "3 Months",
     totalFee: 4999,
@@ -130,54 +186,22 @@ const DEFAULT_MEMBERS = [
     phone: "9123456780",
     email: "devendra.yadav@gmail.com",
     gender: "Male",
+    aadhaarNumber: "2201 8841 5590",
+    aadhaarCopyUrl: generateAadhaarMockSvg("Devendra Yadav", "2201 8841 5590", "IP-1008"),
     plan: "Standard Iron",
     duration: "1 Month",
     totalFee: 1999,
     paidAmount: 1999,
     paymentMode: "Cash",
     startDate: "2026-09-10",
-    expiryDate: "2026-10-10", // Expiring in 2 days!
+    expiryDate: "2026-10-10",
     emergency: "+91 9450011223 (Self)",
     status: "Paid",
     createdAt: "2026-09-10T12:00:00Z"
-  },
-  {
-    id: "IP-1009",
-    name: "Pooja Hegde",
-    phone: "9711882233",
-    email: "pooja.hegde@work.com",
-    gender: "Female",
-    plan: "Pro Athlete",
-    duration: "3 Months",
-    totalFee: 4999,
-    paidAmount: 4999,
-    paymentMode: "UPI / QR",
-    startDate: "2026-07-28",
-    expiryDate: "2026-10-28",
-    emergency: "+91 9911004455 (Husband)",
-    status: "Paid",
-    createdAt: "2026-07-28T09:40:00Z"
-  },
-  {
-    id: "IP-1010",
-    name: "Arjun Rampal Mehta",
-    phone: "9988112233",
-    email: "arjun.mehta@yahoo.com",
-    gender: "Male",
-    plan: "VIP Beast Ultimate",
-    duration: "12 Months",
-    totalFee: 14999,
-    paidAmount: 14999,
-    paymentMode: "Credit / Debit Card",
-    startDate: "2026-06-01",
-    expiryDate: "2027-06-01",
-    emergency: "+91 9899334455 (Personal)",
-    status: "Paid",
-    createdAt: "2026-06-01T15:30:00Z"
   }
 ];
 
-const STORAGE_KEY = "ironpulse_gym_members_v1";
+const STORAGE_KEY = "ironpulse_gym_members_v2"; // Migrated to v2 with Aadhaar KYC
 
 // App State
 let membersState = [];
@@ -217,7 +241,7 @@ function formatCurrency(amount) {
 
 // Calculate Days Remaining
 function getDaysRemaining(expiryDateStr) {
-  const today = new Date("2026-10-08"); // Current workspace anchor time
+  const today = new Date("2026-10-08"); // Current anchor time
   const expiry = new Date(expiryDateStr);
   const diffTime = expiry - today;
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -227,6 +251,16 @@ function getDaysRemaining(expiryDateStr) {
 function isExpiringSoon(expiryDateStr) {
   const days = getDaysRemaining(expiryDateStr);
   return days >= 0 && days <= 14;
+}
+
+// Aadhaar Formatter (1234 5678 9012)
+function formatAadhaarInput(val) {
+  const digits = val.replace(/\D/g, "").substring(0, 12);
+  const parts = [];
+  for (let i = 0; i < digits.length; i += 4) {
+    parts.push(digits.substring(i, i + 4));
+  }
+  return parts.join(" ");
 }
 
 // Compute Metrics & KPI Stat Cards
@@ -326,7 +360,8 @@ function getFilteredMembers() {
       const matchPhone = (m.phone || "").toLowerCase().includes(q);
       const matchId = (m.id || "").toLowerCase().includes(q);
       const matchEmail = (m.email || "").toLowerCase().includes(q);
-      if (!matchName && !matchPhone && !matchId && !matchEmail) return false;
+      const matchAadhaar = (m.aadhaarNumber || "").replace(/\s/g, "").includes(q.replace(/\s/g, ""));
+      if (!matchName && !matchPhone && !matchId && !matchEmail && !matchAadhaar) return false;
     }
 
     return true;
@@ -340,13 +375,12 @@ function getFilteredMembers() {
     } else if (selectedSort === "name") {
       return (a.name || "").localeCompare(b.name || "");
     } else {
-      // Default: recent
       return new Date(b.createdAt || b.startDate) - new Date(a.createdAt || a.startDate);
     }
   });
 }
 
-// Generate Member Avatar Color & Initials
+// Generate Member Initials
 function getInitials(name) {
   if (!name) return "GY";
   const parts = name.trim().split(" ");
@@ -401,6 +435,7 @@ function renderMembersTable() {
     }
 
     const initials = getInitials(m.name);
+    const aadhaarDisplay = m.aadhaarNumber ? `<span class="aadhaar-pill-tag"><i class="fa-solid fa-id-card"></i> ${m.aadhaarNumber}</span>` : `<span class="aadhaar-pill-tag text-muted"><i class="fa-solid fa-id-card"></i> Aadhaar: Pending</span>`;
 
     return `
       <tr class="member-row" data-id="${m.id}">
@@ -415,11 +450,12 @@ function renderMembersTable() {
           </div>
         </td>
 
-        <!-- Contact Info -->
+        <!-- Contact & Aadhaar Info -->
         <td>
           <div class="contact-cell">
             <a href="tel:${m.phone}" class="contact-phone"><i class="fa-solid fa-phone"></i> +91 ${m.phone}</a>
             <span class="contact-email">${escapeHtml(m.email || 'N/A')}</span>
+            ${aadhaarDisplay}
           </div>
         </td>
 
@@ -459,16 +495,19 @@ function renderMembersTable() {
         <!-- Actions -->
         <td class="text-right">
           <div class="action-buttons-wrap">
+            <button class="action-btn btn-view-profile" title="View Profile & Aadhaar KYC Card" onclick="openProfileModal('${m.id}')">
+              <i class="fa-solid fa-address-card"></i> KYC
+            </button>
             ${due > 0 ? `
               <button class="action-btn btn-collect-pay" title="Collect Fee / Record Payment" onclick="openPaymentModal('${m.id}')">
                 <i class="fa-solid fa-hand-holding-dollar"></i> Collect
               </button>
             ` : `
-              <button class="action-btn btn-receipt" title="Print Fee Receipt" onclick="openReceiptModal('${m.id}')">
-                <i class="fa-solid fa-receipt"></i> Receipt
+              <button class="action-btn btn-receipt" title="Print Fee Receipt with Aadhaar" onclick="openReceiptModal('${m.id}')">
+                <i class="fa-solid fa-receipt"></i> Invoice
               </button>
             `}
-            <button class="action-btn btn-edit" title="Edit Member" onclick="editMember('${m.id}')">
+            <button class="action-btn btn-edit" title="Edit Member Details" onclick="editMember('${m.id}')">
               <i class="fa-solid fa-pen-to-square"></i>
             </button>
             <button class="action-btn btn-delete" title="Delete Member" onclick="deleteMember('${m.id}')">
@@ -519,7 +558,7 @@ function showToast(title, message, type = "success") {
   }, 4000);
 }
 
-// Auto-fill Fee when Plan changes in Add/Edit modal
+// Auto-fill Fee when Plan changes
 function setupPlanFeeBinding() {
   const planSelect = document.getElementById("formPlan");
   const feeInput = document.getElementById("formTotalFee");
@@ -543,6 +582,45 @@ function setupPlanFeeBinding() {
   if (feeInput && paidInput) {
     feeInput.addEventListener("input", updateModalBalanceBanner);
     paidInput.addEventListener("input", updateModalBalanceBanner);
+  }
+
+  // Aadhaar input auto-formatter
+  const aadhaarInput = document.getElementById("formAadhaarNumber");
+  if (aadhaarInput) {
+    aadhaarInput.addEventListener("input", (e) => {
+      e.target.value = formatAadhaarInput(e.target.value);
+    });
+  }
+
+  // Aadhaar file upload handler
+  const aadhaarFileInput = document.getElementById("formAadhaarFile");
+  const hiddenDataUrl = document.getElementById("formAadhaarDataUrl");
+  const uploadPreview = document.getElementById("aadhaarUploadPreview");
+  const thumbImg = document.getElementById("aadhaarThumbImg");
+  const removeFileBtn = document.getElementById("removeAadhaarFileBtn");
+
+  if (aadhaarFileInput) {
+    aadhaarFileInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          const dataUrl = evt.target.result;
+          hiddenDataUrl.value = dataUrl;
+          if (thumbImg) thumbImg.src = dataUrl;
+          if (uploadPreview) uploadPreview.style.display = "flex";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (removeFileBtn) {
+    removeFileBtn.addEventListener("click", () => {
+      if (aadhaarFileInput) aadhaarFileInput.value = "";
+      if (hiddenDataUrl) hiddenDataUrl.value = "";
+      if (uploadPreview) uploadPreview.style.display = "none";
+    });
   }
 }
 
@@ -570,7 +648,13 @@ function openAddMemberModal() {
   form.reset();
   if (editIdInput) editIdInput.value = "";
   if (title) title.textContent = "Register New Gym Member";
-  if (sub) sub.textContent = "Enter member athlete details, assign membership plan and set fee status";
+  if (sub) sub.textContent = "Enter member athlete details, attach Aadhaar card and assign plan";
+
+  // Reset Aadhaar preview
+  const uploadPreview = document.getElementById("aadhaarUploadPreview");
+  const hiddenDataUrl = document.getElementById("formAadhaarDataUrl");
+  if (uploadPreview) uploadPreview.style.display = "none";
+  if (hiddenDataUrl) hiddenDataUrl.value = "";
 
   // Set default start date to today
   const startDateInput = document.getElementById("formStartDate");
@@ -602,18 +686,32 @@ window.editMember = function(memberId) {
 
   if (editIdInput) editIdInput.value = member.id;
   if (title) title.textContent = `Edit Member: ${member.name} (${member.id})`;
-  if (sub) sub.textContent = "Update member contact details, assigned plan, or fee adjustments";
+  if (sub) sub.textContent = "Update contact details, Aadhaar proof or membership fees";
 
   document.getElementById("formFullName").value = member.name || "";
   document.getElementById("formPhone").value = member.phone || "";
   document.getElementById("formEmail").value = member.email || "";
   document.getElementById("formGender").value = member.gender || "Male";
+  document.getElementById("formAadhaarNumber").value = member.aadhaarNumber || "";
   document.getElementById("formPlan").value = member.plan || "Pro Athlete";
   document.getElementById("formTotalFee").value = member.totalFee || 0;
   document.getElementById("formPaidAmount").value = member.paidAmount || 0;
   document.getElementById("formPaymentMode").value = member.paymentMode || "UPI / QR";
   document.getElementById("formStartDate").value = member.startDate || new Date().toISOString().split("T")[0];
   document.getElementById("formEmergency").value = member.emergency || "";
+
+  // Setup Aadhaar preview if present
+  const uploadPreview = document.getElementById("aadhaarUploadPreview");
+  const thumbImg = document.getElementById("aadhaarThumbImg");
+  const hiddenDataUrl = document.getElementById("formAadhaarDataUrl");
+  if (member.aadhaarCopyUrl) {
+    if (hiddenDataUrl) hiddenDataUrl.value = member.aadhaarCopyUrl;
+    if (thumbImg) thumbImg.src = member.aadhaarCopyUrl;
+    if (uploadPreview) uploadPreview.style.display = "flex";
+  } else {
+    if (hiddenDataUrl) hiddenDataUrl.value = "";
+    if (uploadPreview) uploadPreview.style.display = "none";
+  }
 
   updateModalBalanceBanner();
   modal.classList.add("active");
@@ -642,12 +740,19 @@ function handleSaveMember(e) {
   const phone = document.getElementById("formPhone").value.trim();
   const email = document.getElementById("formEmail").value.trim();
   const gender = document.getElementById("formGender").value;
+  const aadhaarNumber = document.getElementById("formAadhaarNumber").value.trim();
+  let aadhaarCopyUrl = document.getElementById("formAadhaarDataUrl").value;
   const plan = document.getElementById("formPlan").value;
   const totalFee = Number(document.getElementById("formTotalFee").value || 0);
   const paidAmount = Number(document.getElementById("formPaidAmount").value || 0);
   const paymentMode = document.getElementById("formPaymentMode").value;
   const startDate = document.getElementById("formStartDate").value || new Date().toISOString().split("T")[0];
   const emergency = document.getElementById("formEmergency").value.trim();
+
+  // If no file uploaded, generate mock SVG Aadhaar
+  if (!aadhaarCopyUrl && aadhaarNumber) {
+    aadhaarCopyUrl = generateAadhaarMockSvg(name, aadhaarNumber, editId || "IP-NEW");
+  }
 
   // Determine Duration and calculate Expiry Date
   let duration = "1 Month";
@@ -674,7 +779,6 @@ function handleSaveMember(e) {
   }
 
   if (editId) {
-    // Update existing
     const idx = membersState.findIndex(m => m.id === editId);
     if (idx !== -1) {
       membersState[idx] = {
@@ -683,6 +787,8 @@ function handleSaveMember(e) {
         phone,
         email,
         gender,
+        aadhaarNumber,
+        aadhaarCopyUrl,
         plan,
         duration,
         totalFee,
@@ -696,7 +802,6 @@ function handleSaveMember(e) {
       showToast("Member Updated", `Successfully updated details for ${name}.`, "success");
     }
   } else {
-    // Create new
     const nextId = "IP-" + (1000 + membersState.length + 1);
     const newMember = {
       id: nextId,
@@ -704,6 +809,8 @@ function handleSaveMember(e) {
       phone,
       email,
       gender,
+      aadhaarNumber,
+      aadhaarCopyUrl: aadhaarCopyUrl || generateAadhaarMockSvg(name, aadhaarNumber, nextId),
       plan,
       duration,
       totalFee,
@@ -725,6 +832,72 @@ function handleSaveMember(e) {
   document.getElementById("memberModal").classList.remove("active");
 }
 
+// Profile & Aadhaar KYC Modal
+window.openProfileModal = function(memberId) {
+  const member = membersState.find(m => m.id === memberId);
+  if (!member) return;
+
+  const modal = document.getElementById("profileModal");
+  if (!modal) return;
+
+  document.getElementById("profMemberName").textContent = `${member.name} (${member.id})`;
+  document.getElementById("profMemberId").textContent = `Gym Athlete Member ID: ${member.id}`;
+  document.getElementById("profAvatar").textContent = getInitials(member.name);
+  document.getElementById("profFullName").textContent = member.name;
+  document.getElementById("profPlanBadge").textContent = `${member.plan} (${member.duration})`;
+  
+  const statusBadge = document.getElementById("profStatusBadge");
+  if (statusBadge) {
+    statusBadge.textContent = member.status;
+    statusBadge.className = `status-badge ${member.status === 'Paid' ? 'badge-paid' : member.status === 'Unpaid' ? 'badge-unpaid' : 'badge-partial'}`;
+  }
+
+  document.getElementById("profPhone").textContent = `+91 ${member.phone}`;
+  document.getElementById("profEmail").textContent = member.email || "No email registered";
+  document.getElementById("profStartDate").textContent = member.startDate;
+  document.getElementById("profExpiryDate").textContent = member.expiryDate;
+
+  // Aadhaar Details
+  const aadhaarDisplay = document.getElementById("profAadhaarDisplay");
+  const aadhaarImg = document.getElementById("profAadhaarImg");
+  const aadhaarPlaceholder = document.getElementById("profAadhaarPlaceholder");
+
+  if (aadhaarDisplay) {
+    aadhaarDisplay.textContent = member.aadhaarNumber || "NOT PROVIDED";
+  }
+
+  if (member.aadhaarCopyUrl) {
+    if (aadhaarImg) {
+      aadhaarImg.src = member.aadhaarCopyUrl;
+      aadhaarImg.style.display = "block";
+    }
+    if (aadhaarPlaceholder) aadhaarPlaceholder.style.display = "none";
+  } else {
+    if (aadhaarImg) aadhaarImg.style.display = "none";
+    if (aadhaarPlaceholder) aadhaarPlaceholder.style.display = "block";
+  }
+
+  // Bind Buttons inside profile
+  const invoiceBtn = document.getElementById("profPrintInvoiceBtn");
+  const editBtn = document.getElementById("profEditBtn");
+
+  if (invoiceBtn) {
+    invoiceBtn.onclick = () => {
+      modal.classList.remove("active");
+      openReceiptModal(member.id);
+    };
+  }
+
+  if (editBtn) {
+    editBtn.onclick = () => {
+      modal.classList.remove("active");
+      editMember(member.id);
+    };
+  }
+
+  modal.classList.add("active");
+};
+
 // Payment Modal
 window.openPaymentModal = function(memberId) {
   const member = membersState.find(m => m.id === memberId);
@@ -745,7 +918,6 @@ function handleRecordPayment(e) {
   const memberId = document.getElementById("payMemberId").value;
   const collectAmount = Number(document.getElementById("collectAmount").value || 0);
   const method = document.getElementById("collectMethod").value;
-  const notes = document.getElementById("collectNotes").value.trim();
 
   const idx = membersState.findIndex(m => m.id === memberId);
   if (idx === -1) return;
@@ -766,13 +938,12 @@ function handleRecordPayment(e) {
   document.getElementById("paymentModal").classList.remove("active");
   showToast("Fee Collected", `Recorded ₹${collectAmount} payment from ${member.name}.`, "success");
 
-  // Automatically offer receipt
   setTimeout(() => {
     openReceiptModal(member.id);
   }, 500);
 }
 
-// Receipt Modal
+// Receipt Modal with Aadhaar & Phone Number
 window.openReceiptModal = function(memberId) {
   const member = membersState.find(m => m.id === memberId);
   if (!member) return;
@@ -786,6 +957,13 @@ window.openReceiptModal = function(memberId) {
   document.getElementById("rcptMemberName").textContent = member.name;
   document.getElementById("rcptMemberPhone").textContent = `Phone: +91 ${member.phone}`;
   document.getElementById("rcptMemberId").textContent = `Member ID: ${member.id} | Valid till: ${member.expiryDate}`;
+  
+  // Explicit Aadhaar Number on Invoice
+  const rcptAadhaar = document.getElementById("rcptMemberAadhaar");
+  if (rcptAadhaar) {
+    rcptAadhaar.innerHTML = `<i class="fa-solid fa-id-card"></i> Aadhaar No: <strong>${member.aadhaarNumber || 'Verified on Record'}</strong>`;
+  }
+
   document.getElementById("rcptPlanName").textContent = `${member.plan} Membership Pass`;
   document.getElementById("rcptDuration").textContent = member.duration || "Standard";
   
@@ -812,14 +990,14 @@ window.openReceiptModal = function(memberId) {
   document.getElementById("receiptModal").classList.add("active");
 };
 
-// Export to CSV
+// Export to CSV with Aadhaar Number
 function exportMembersCsv() {
   if (membersState.length === 0) {
     showToast("No Data", "No member records available to export.", "warning");
     return;
   }
 
-  const headers = ["Member ID", "Full Name", "Phone", "Email", "Plan", "Duration", "Total Fee (INR)", "Paid Amount (INR)", "Due Balance (INR)", "Status", "Payment Method", "Start Date", "Expiry Date"];
+  const headers = ["Member ID", "Full Name", "Phone", "Aadhaar Card Number", "Email", "Plan", "Duration", "Total Fee (INR)", "Paid Amount (INR)", "Due Balance (INR)", "Status", "Payment Method", "Start Date", "Expiry Date"];
   
   const rows = membersState.map(m => {
     const total = Number(m.totalFee || 0);
@@ -829,6 +1007,7 @@ function exportMembersCsv() {
       `"${m.id}"`,
       `"${m.name.replace(/"/g, '""')}"`,
       `"${m.phone}"`,
+      `"${m.aadhaarNumber || ''}"`,
       `"${m.email || ''}"`,
       `"${m.plan}"`,
       `"${m.duration || ''}"`,
@@ -851,7 +1030,7 @@ function exportMembersCsv() {
   link.click();
   document.body.removeChild(link);
 
-  showToast("CSV Downloaded", "Members ledger exported successfully.", "success");
+  showToast("CSV Downloaded", "Members ledger with Aadhaar exported.", "success");
 }
 
 // Reset Default Data
@@ -888,7 +1067,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       activeTab = filter;
 
-      // Sync active state in UI
       document.querySelectorAll(".filter-tab").forEach(t => {
         t.classList.toggle("active", t.getAttribute("data-filter") === filter);
       });
@@ -900,7 +1078,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Search Input
+  // Search Input (Name, Phone, Aadhaar, ID)
   const searchInput = document.getElementById("memberSearchInput");
   const clearSearchBtn = document.getElementById("searchClearBtn");
 
@@ -969,6 +1147,13 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("receiptModal").classList.remove("active");
   });
 
+  document.getElementById("closeProfileModal")?.addEventListener("click", () => {
+    document.getElementById("profileModal").classList.remove("active");
+  });
+  document.getElementById("closeProfileModalBtn")?.addEventListener("click", () => {
+    document.getElementById("profileModal").classList.remove("active");
+  });
+
   // Print Receipt
   document.getElementById("printReceiptBtn")?.addEventListener("click", () => {
     window.print();
@@ -1007,7 +1192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Handle URL query parameters (e.g. ?tab=unpaid or ?action=new)
+  // Handle URL query parameters
   const urlParams = new URLSearchParams(window.location.search);
   const tabParam = urlParams.get("tab");
   const actionParam = urlParams.get("action");
