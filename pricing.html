@@ -50,7 +50,7 @@
         <a href="index.html" class="nav-item">Home</a>
         <a href="about.html" class="nav-item">About</a>
         <a href="programs.html" class="nav-item">Programs</a>
-        <a href="schedule.html" class="nav-item">Timetable</a>
+        <a href="schedule.html" class="nav-item">Aaj Ye Krna H</a>
         <a href="pricing.html" class="nav-item active">Memberships</a>
         <a href="contact.html" class="nav-item">Contact & Map</a>
       </nav>
@@ -91,13 +91,13 @@
         <div class="price-card">
           <div class="price-header">
             <span class="plan-type">MONTHLY PASS</span>
-            <h3 class="plan-name">Standard Iron</h3>
+            <h3 class="plan-name" id="planNameStarter">Standard Iron</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">1,999</span>
+              <span class="amount" id="planFeeStarter">1,999</span>
               <span class="period">/month</span>
             </div>
-            <p class="price-tagline">Ideal for beginners and trial lifters</p>
+            <p class="price-tagline" id="planTaglineStarter">Ideal for beginners and trial lifters</p>
           </div>
 
           <div class="price-body">
@@ -112,7 +112,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-glass btn-block join-plan-btn" data-plan="Standard Iron" data-fee="1999" data-duration="1 Month">
+            <button class="btn btn-glass btn-block join-plan-btn" id="planBtnStarter" data-plan="Standard Iron" data-fee="1999" data-duration="1 Month">
               Select Standard Pass
             </button>
           </div>
@@ -123,13 +123,13 @@
           <div class="popular-ribbon">MOST POPULAR</div>
           <div class="price-header">
             <span class="plan-type">QUARTERLY (3 MONTHS)</span>
-            <h3 class="plan-name">Pro Athlete</h3>
+            <h3 class="plan-name" id="planNamePro">Pro Athlete</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">4,999</span>
+              <span class="amount" id="planFeePro">4,999</span>
               <span class="period">/quarter</span>
             </div>
-            <p class="price-tagline">Effective ₹1,666/mo (Save ₹1,000 on 3 months)</p>
+            <p class="price-tagline" id="planTaglinePro">Effective ₹1,666/mo (Save ₹1,000 on 3 months)</p>
           </div>
 
           <div class="price-body">
@@ -144,7 +144,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-primary-glow btn-block join-plan-btn" data-plan="Pro Athlete" data-fee="4999" data-duration="3 Months">
+            <button class="btn btn-primary-glow btn-block join-plan-btn" id="planBtnPro" data-plan="Pro Athlete" data-fee="4999" data-duration="3 Months">
               Select Pro Athlete Pass
             </button>
           </div>
@@ -154,13 +154,13 @@
         <div class="price-card vip-tier">
           <div class="price-header">
             <span class="plan-type">ANNUAL VIP (12 MONTHS)</span>
-            <h3 class="plan-name">VIP Beast Ultimate</h3>
+            <h3 class="plan-name" id="planNameVip">VIP Beast Ultimate</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">14,999</span>
+              <span class="amount" id="planFeeVip">14,999</span>
               <span class="period">/year</span>
             </div>
-            <p class="price-tagline">Effective ₹1,249/mo (Massive 38% annual discount)</p>
+            <p class="price-tagline" id="planTaglineVip">Effective ₹1,249/mo (Massive 38% annual discount)</p>
           </div>
 
           <div class="price-body">
@@ -175,7 +175,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-glass btn-block join-plan-btn" data-plan="VIP Beast Ultimate" data-fee="14999" data-duration="12 Months">
+            <button class="btn btn-glass btn-block join-plan-btn" id="planBtnVip" data-plan="VIP Beast Ultimate" data-fee="14999" data-duration="12 Months">
               Claim VIP Beast Pass
             </button>
           </div>
@@ -303,6 +303,7 @@
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
+  <script src="js/cms.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

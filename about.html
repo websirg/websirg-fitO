@@ -50,7 +50,7 @@
         <a href="index.html" class="nav-item">Home</a>
         <a href="about.html" class="nav-item active">About</a>
         <a href="programs.html" class="nav-item">Programs</a>
-        <a href="schedule.html" class="nav-item">Timetable</a>
+        <a href="schedule.html" class="nav-item">Aaj Ye Krna H</a>
         <a href="pricing.html" class="nav-item">Memberships</a>
         <a href="contact.html" class="nav-item">Contact & Map</a>
       </nav>
@@ -189,57 +189,79 @@
     </div>
   </section>
 
-  <!-- Coaches Showcase -->
-  <section class="section trainers-section">
+  <!-- Head Coach Showcase (Single Master Coach) -->
+  <section class="section trainers-section" id="trainers">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-tag">LEADERSHIP</span>
-        <h2 class="section-title">MEET THE <span class="gradient-text">HEAD COACHES</span></h2>
-        <p class="section-sub">Guided by Olympians, certified exercise physiologists, and competitive powerlifters.</p>
+        <span class="section-tag"><i class="fa-solid fa-crown"></i> EXCLUSIVE 1-ON-1 LEADERSHIP</span>
+        <h2 class="section-title">MEET OUR <span class="gradient-text">HEAD COACH & TRAINER</span></h2>
+        <p class="section-sub">Guided by national bodybuilding champions, certified exercise physiologists, and master biomechanics coaching.</p>
       </div>
 
-      <div class="trainers-grid">
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=700&auto=format&fit=crop" alt="Marcus Vance">
+      <div class="single-trainer-showcase" id="singleTrainerCard">
+        <div class="single-trainer-image-wrap">
+          <img id="liveTrainerPhoto" src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=800&auto=format&fit=crop" alt="Head Trainer" class="single-trainer-img">
+          <div class="single-trainer-badge-exp">
+            <i class="fa-solid fa-award"></i>
+            <div>
+              <span class="badge-num" id="liveTrainerExp">12+ YEARS</span>
+              <span class="badge-lbl">PRO EXPERIENCE</span>
+            </div>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Marcus Vance</h3>
-            <span class="trainer-spec">Head of Hypertrophy</span>
-            <p class="trainer-desc">12+ years experience mentoring pro athletes and natural physique champions.</p>
-          </div>
-        </div>
-
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=700&auto=format&fit=crop" alt="Elena Rostova">
-          </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Elena Rostova</h3>
-            <span class="trainer-spec">CrossFit & Conditioning</span>
-            <p class="trainer-desc">Level 3 Certified CrossFit Coach specializing in aerobic threshold optimization.</p>
+          <div class="single-trainer-badge-specialty">
+            <span class="live-dot"></span> Head Coach In-Gym Active
           </div>
         </div>
 
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop" alt="Priya Sharma">
+        <div class="single-trainer-content">
+          <div class="single-trainer-header">
+            <span class="coach-tag"><i class="fa-solid fa-shield-halved"></i> CHIEF FITNESS DIRECTOR & HEAD TRAINER</span>
+            <h3 class="single-trainer-title" id="liveTrainerName">Coach Marcus Vance</h3>
+            <p class="single-trainer-role" id="liveTrainerRole">Head of Hypertrophy & Powerlifting Mechanics</p>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Priya Sharma</h3>
-            <span class="trainer-spec">Clinical Nutritionist</span>
-            <p class="trainer-desc">Specialist in metabolic health, body fat shred nutrition, and restorative mobility.</p>
-          </div>
-        </div>
 
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=700&auto=format&fit=crop" alt="Devraj Singh">
+          <p class="single-trainer-bio" id="liveTrainerBio">
+            12+ years experience preparing pro athletes and classic physique champions. Specialist in hypertrophy biomechanics, custom macro nutrition, and safe spine loading protocols.
+          </p>
+
+          <div class="trainer-highlights-grid">
+            <div class="highlight-item">
+              <i class="fa-solid fa-trophy"></i>
+              <div>
+                <strong>500+ Members</strong>
+                <span>Transformations</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-utensils"></i>
+              <div>
+                <strong>Custom Macro</strong>
+                <span>Dietary Coaching</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-dumbbell"></i>
+              <div>
+                <strong>Compound PR</strong>
+                <span>Form Perfection</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-heart-pulse"></i>
+              <div>
+                <strong>Mobility &</strong>
+                <span>Active Recovery</span>
+              </div>
+            </div>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Devraj Singh</h3>
-            <span class="trainer-spec">Strength & Powerlifting</span>
-            <p class="trainer-desc">Deadlift record holder focusing on barbell trajectory and injury-free PRs.</p>
+
+          <div class="single-trainer-actions">
+            <a href="pricing.html" class="btn btn-primary-glow">
+              <i class="fa-solid fa-calendar-check"></i> Book Personal Session with Coach
+            </a>
+            <a id="liveTrainerWaLink" href="https://wa.me/919876543210?text=Hello%20Coach,%20I%20want%20to%20train%20with%20you" target="_blank" class="btn btn-outline-neon">
+              <i class="fa-brands fa-whatsapp"></i> Chat with Head Coach
+            </a>
           </div>
         </div>
       </div>
@@ -317,6 +339,7 @@
     </div>
   </div>
 
+  <script src="js/cms.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

@@ -1208,7 +1208,297 @@ document.addEventListener("DOMContentLoaded", () => {
     renderMembersTable();
   }
 
+  // Setup Invoices Hub & Website CMS View Switcher
+  setupViewSwitcher();
+  setupInvoicesHub();
+  setupCmsEditor();
+
   if (actionParam === "new") {
     setTimeout(openAddMemberModal, 300);
   }
 });
+
+// View Switcher (Dashboard vs Invoices vs CMS)
+function switchAdminView(viewName) {
+  const dashSection = document.getElementById("sectionDashboard");
+  const invoicesSection = document.getElementById("sectionInvoices");
+  const cmsSection = document.getElementById("sectionCms");
+
+  if (dashSection) dashSection.style.display = viewName === "dashboard" ? "block" : "none";
+  if (invoicesSection) invoicesSection.style.display = viewName === "invoices" ? "block" : "none";
+  if (cmsSection) cmsSection.style.display = viewName === "cms" ? "block" : "none";
+
+  // Sidebar link active states
+  document.querySelectorAll(".sidebar-link").forEach(link => {
+    const linkView = link.getAttribute("data-view");
+    if (linkView) {
+      link.classList.toggle("active", linkView === viewName);
+    } else if (viewName === "dashboard" && link.getAttribute("data-filter") === activeTab) {
+      link.classList.add("active");
+    } else {
+      link.classList.remove("active");
+    }
+  });
+
+  if (viewName === "invoices") {
+    renderInvoicesTable();
+  } else if (viewName === "cms") {
+    loadCmsToAdminForm();
+  }
+}
+
+function setupViewSwitcher() {
+  document.querySelectorAll(".sidebar-link[data-view]").forEach(link => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      const view = link.getAttribute("data-view");
+      switchAdminView(view);
+    });
+  });
+
+  // When clicking dashboard/filter links, return to dashboard
+  document.querySelectorAll(".sidebar-link[data-filter]").forEach(link => {
+    link.addEventListener("click", () => {
+      switchAdminView("dashboard");
+    });
+  });
+}
+
+// Invoices Hub Logic
+function renderInvoicesTable() {
+  const tbody = document.getElementById("invoicesTableBody");
+  const searchInput = document.getElementById("invoiceSearchInput");
+  const invoicesCountEl = document.getElementById("sidebarInvoicesCount");
+
+  if (!tbody) return;
+
+  if (invoicesCountEl) {
+    invoicesCountEl.textContent = membersState.length;
+  }
+
+  const query = (searchInput?.value || "").toLowerCase().trim();
+
+  const filtered = membersState.filter(m => {
+    if (!query) return true;
+    const nameMatch = (m.name || "").toLowerCase().includes(query);
+    const idMatch = (m.id || "").toLowerCase().includes(query);
+    const phoneMatch = (m.phone || "").includes(query);
+    const aadhaarMatch = (m.aadhaarNumber || "").replace(/\s/g, "").includes(query.replace(/\s/g, ""));
+    return nameMatch || idMatch || phoneMatch || aadhaarMatch;
+  });
+
+  tbody.innerHTML = filtered.map(m => {
+    const total = Number(m.totalFee || 0);
+    const paid = Number(m.paidAmount || 0);
+    const due = Math.max(0, total - paid);
+    const invNo = `REC-2026-${m.id.replace('IP-', '00')}`;
+
+    let statusPill = "";
+    if (paid >= total && total > 0) {
+      statusPill = `<span class="status-badge badge-paid"><i class="fa-solid fa-check"></i> Paid Full</span>`;
+    } else if (paid === 0) {
+      statusPill = `<span class="status-badge badge-unpaid"><i class="fa-solid fa-clock"></i> Unpaid</span>`;
+    } else {
+      statusPill = `<span class="status-badge badge-partial">Partial (${formatCurrency(paid)})</span>`;
+    }
+
+    return `
+      <tr class="member-row">
+        <td>
+          <span style="font-family: monospace; font-weight: 800; color: var(--cyan);">${invNo}</span>
+          <div style="font-size: 0.75rem; color: var(--text-dim);">${m.startDate}</div>
+        </td>
+        <td>
+          <strong style="color: #fff;">${escapeHtml(m.name)}</strong>
+          <div style="font-size: 0.78rem; color: var(--text-muted);"><i class="fa-solid fa-phone"></i> +91 ${m.phone}</div>
+        </td>
+        <td>
+          <span class="aadhaar-pill-tag"><i class="fa-solid fa-id-card"></i> ${m.aadhaarNumber || 'Verified ID'}</span>
+        </td>
+        <td>
+          <span class="plan-name-tag">${escapeHtml(m.plan)}</span>
+          <div style="font-size: 0.75rem; color: var(--text-dim);">${m.duration}</div>
+        </td>
+        <td>
+          <strong style="font-size: 0.95rem; color: #fff;">${formatCurrency(total)}</strong>
+        </td>
+        <td>
+          ${statusPill}
+          ${due > 0 ? `<div style="font-size: 0.75rem; color: var(--danger);">Due: ${formatCurrency(due)}</div>` : ''}
+        </td>
+        <td class="text-right">
+          <button class="btn btn-sm btn-outline-cyan" onclick="openReceiptModal('${m.id}')" title="Print Official Tax Receipt">
+            <i class="fa-solid fa-print"></i> Print Receipt
+          </button>
+        </td>
+      </tr>
+    `;
+  }).join("");
+
+  if (searchInput && !searchInput.dataset.bound) {
+    searchInput.dataset.bound = "true";
+    searchInput.addEventListener("input", renderInvoicesTable);
+  }
+}
+
+function setupInvoicesHub() {
+  const invoicesCountEl = document.getElementById("sidebarInvoicesCount");
+  if (invoicesCountEl) {
+    invoicesCountEl.textContent = membersState.length;
+  }
+}
+
+// Website Live CMS Editor Logic
+function loadCmsToAdminForm() {
+  const cms = getCmsData();
+
+  // Single Head Trainer
+  const tName = document.getElementById("cmsTrainerName");
+  const tRole = document.getElementById("cmsTrainerRole");
+  const tExp = document.getElementById("cmsTrainerExp");
+  const tPhone = document.getElementById("cmsTrainerPhone");
+  const tBio = document.getElementById("cmsTrainerBio");
+  const tPhoto = document.getElementById("cmsTrainerPhoto");
+  const tPreview = document.getElementById("cmsTrainerPreview");
+
+  if (tName) tName.value = cms.trainer?.name || "";
+  if (tRole) tRole.value = cms.trainer?.role || "";
+  if (tExp) tExp.value = cms.trainer?.experience || "";
+  if (tPhone) tPhone.value = cms.trainer?.phone || "";
+  if (tBio) tBio.value = cms.trainer?.bio || "";
+  if (tPhoto) {
+    tPhoto.value = cms.trainer?.photo || "";
+    if (tPreview) tPreview.src = cms.trainer?.photo || "";
+  }
+
+  // Plans & Fees
+  if (cms.plans && cms.plans.length >= 3) {
+    document.getElementById("cmsPlan1Name").value = cms.plans[0].name || "";
+    document.getElementById("cmsPlan1Fee").value = cms.plans[0].fee || 1999;
+    document.getElementById("cmsPlan1Tag").value = cms.plans[0].tagline || "";
+
+    document.getElementById("cmsPlan2Name").value = cms.plans[1].name || "";
+    document.getElementById("cmsPlan2Fee").value = cms.plans[1].fee || 4999;
+    document.getElementById("cmsPlan2Tag").value = cms.plans[1].tagline || "";
+
+    document.getElementById("cmsPlan3Name").value = cms.plans[2].name || "";
+    document.getElementById("cmsPlan3Fee").value = cms.plans[2].fee || 14999;
+    document.getElementById("cmsPlan3Tag").value = cms.plans[2].tagline || "";
+  }
+
+  // Gym Photos & Info
+  document.getElementById("cmsGymName").value = cms.gymName || "IRONPULSE FITNESS";
+  document.getElementById("cmsGymTagline").value = cms.gymTagline || "";
+  const heroInput = document.getElementById("cmsHeroImage");
+  const heroPreview = document.getElementById("cmsHeroPreview");
+  if (heroInput) {
+    heroInput.value = cms.heroImage || "";
+    if (heroPreview) heroPreview.src = cms.heroImage || "";
+  }
+  document.getElementById("cmsGymPhone").value = cms.gymPhone || "";
+  document.getElementById("cmsGymAddress").value = cms.gymAddress || "";
+
+  // Today's Routine
+  loadCmsWorkoutDay();
+}
+
+function loadCmsWorkoutDay() {
+  const cms = getCmsData();
+  const day = document.getElementById("cmsWorkoutDaySelect")?.value || "monday";
+  const workout = cms.dailyWorkouts?.[day] || DEFAULT_CMS.dailyWorkouts.monday;
+
+  const titleInput = document.getElementById("cmsWorkoutTitle");
+  const focusInput = document.getElementById("cmsWorkoutFocus");
+  const exTextarea = document.getElementById("cmsWorkoutExercises");
+
+  if (titleInput) titleInput.value = workout.title || "";
+  if (focusInput) focusInput.value = workout.focus || "";
+  if (exTextarea) exTextarea.value = (workout.exercises || []).join("\n");
+}
+
+function setupCmsEditor() {
+  const daySelect = document.getElementById("cmsWorkoutDaySelect");
+  if (daySelect) {
+    daySelect.addEventListener("change", loadCmsWorkoutDay);
+  }
+
+  // Trainer photo live preview
+  const trainerPhotoInput = document.getElementById("cmsTrainerPhoto");
+  const trainerPreview = document.getElementById("cmsTrainerPreview");
+  if (trainerPhotoInput && trainerPreview) {
+    trainerPhotoInput.addEventListener("input", (e) => {
+      trainerPreview.src = e.target.value;
+    });
+  }
+
+  // Hero photo live preview
+  const heroPhotoInput = document.getElementById("cmsHeroImage");
+  const heroPreview = document.getElementById("cmsHeroPreview");
+  if (heroPhotoInput && heroPreview) {
+    heroPhotoInput.addEventListener("input", (e) => {
+      heroPreview.src = e.target.value;
+    });
+  }
+
+  // Save CMS Form
+  const cmsForm = document.getElementById("cmsForm");
+  const saveBtnTop = document.getElementById("saveCmsBtnTop");
+
+  function saveCmsFromForm(e) {
+    if (e) e.preventDefault();
+    const cms = getCmsData();
+
+    // 1. Single Head Trainer Details
+    cms.trainer = {
+      name: document.getElementById("cmsTrainerName").value.trim(),
+      role: document.getElementById("cmsTrainerRole").value.trim(),
+      experience: document.getElementById("cmsTrainerExp").value.trim(),
+      phone: document.getElementById("cmsTrainerPhone").value.trim(),
+      bio: document.getElementById("cmsTrainerBio").value.trim(),
+      photo: document.getElementById("cmsTrainerPhoto").value.trim() || cms.trainer.photo
+    };
+
+    // 2. Membership Plans & Fees
+    cms.plans[0].name = document.getElementById("cmsPlan1Name").value.trim();
+    cms.plans[0].fee = Number(document.getElementById("cmsPlan1Fee").value || 1999);
+    cms.plans[0].tagline = document.getElementById("cmsPlan1Tag").value.trim();
+
+    cms.plans[1].name = document.getElementById("cmsPlan2Name").value.trim();
+    cms.plans[1].fee = Number(document.getElementById("cmsPlan2Fee").value || 4999);
+    cms.plans[1].tagline = document.getElementById("cmsPlan2Tag").value.trim();
+
+    cms.plans[2].name = document.getElementById("cmsPlan3Name").value.trim();
+    cms.plans[2].fee = Number(document.getElementById("cmsPlan3Fee").value || 14999);
+    cms.plans[2].tagline = document.getElementById("cmsPlan3Tag").value.trim();
+
+    // 3. Gym Photos & Branding
+    cms.gymName = document.getElementById("cmsGymName").value.trim();
+    cms.gymTagline = document.getElementById("cmsGymTagline").value.trim();
+    cms.heroImage = document.getElementById("cmsHeroImage").value.trim() || cms.heroImage;
+    cms.gymPhone = document.getElementById("cmsGymPhone").value.trim();
+    cms.gymAddress = document.getElementById("cmsGymAddress").value.trim();
+
+    // 4. "Aaj Ye Krna H" routine
+    const day = document.getElementById("cmsWorkoutDaySelect").value;
+    const title = document.getElementById("cmsWorkoutTitle").value.trim();
+    const focus = document.getElementById("cmsWorkoutFocus").value.trim();
+    const exercises = document.getElementById("cmsWorkoutExercises").value
+      .split("\n")
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (!cms.dailyWorkouts) cms.dailyWorkouts = {};
+    cms.dailyWorkouts[day] = {
+      title,
+      focus,
+      intensity: "High (Hypertrophy)",
+      exercises
+    };
+
+    saveCmsData(cms);
+    showToast("Website Updated Live!", "Trainer details, plans & pricing, gym photos, and Today's workout synced to live website.", "success");
+  }
+
+  if (cmsForm) cmsForm.addEventListener("submit", saveCmsFromForm);
+  if (saveBtnTop) saveBtnTop.addEventListener("click", saveCmsFromForm);
+}

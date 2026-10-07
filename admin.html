@@ -55,6 +55,17 @@
           <span class="badge-counter badge-warning" id="sidebarExpiringCount">0</span>
         </a>
 
+        <div class="nav-section-title">BILLING & CUSTOMIZER</div>
+        <a href="#" class="sidebar-link" id="navInvoicesTab" data-view="invoices">
+          <i class="fa-solid fa-file-invoice-dollar"></i>
+          <span>Invoices & Billing Hub</span>
+          <span class="badge-counter badge-cyan" id="sidebarInvoicesCount">0</span>
+        </a>
+        <a href="#" class="sidebar-link" id="navCmsTab" data-view="cms">
+          <i class="fa-solid fa-pen-ruler"></i>
+          <span>Website CMS Editor</span>
+        </a>
+
         <div class="nav-section-title">QUICK ACTIONS</div>
         <a href="javascript:void(0)" class="sidebar-link" id="sidebarAddMemberBtn">
           <i class="fa-solid fa-user-plus"></i>
@@ -312,8 +323,281 @@
             </div>
           </div>
         </div>
+      </div><!-- End sectionDashboard -->
 
-      </div>
+      <!-- Section 2: Invoices & Billing Hub -->
+      <div id="sectionInvoices" class="admin-tab-section" style="display: none;">
+        <div class="dashboard-greeting">
+          <div>
+            <h1 class="greeting-title">Invoices & Tax Receipts Ledger</h1>
+            <p class="greeting-sub">Access, view, search, and print official gym invoices with member Aadhaar numbers and payment verification stamps.</p>
+          </div>
+          <div class="quick-header-actions">
+            <button class="btn btn-secondary-neon" onclick="exportMembersCsv()">
+              <i class="fa-solid fa-file-excel"></i> Export All Invoices
+            </button>
+          </div>
+        </div>
+
+        <!-- Invoices Table Card -->
+        <div class="members-table-card" style="margin-top: 20px;">
+          <div class="table-toolbar-card" style="border: none; border-bottom: 1px solid var(--admin-border); border-radius: 0;">
+            <div class="toolbar-controls" style="width: 100%; justify-content: space-between;">
+              <div class="search-input-wrap" style="width: 320px;">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="invoiceSearchInput" class="search-input" placeholder="Search invoices by name, ID, or Aadhaar...">
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);">
+                Official Receipts Ready for Print / Download
+              </div>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="members-table">
+              <thead>
+                <tr>
+                  <th>INVOICE NUMBER</th>
+                  <th>ATHLETE / MEMBER</th>
+                  <th>AADHAAR / GOV ID</th>
+                  <th>PLAN & VALIDITY</th>
+                  <th>INVOICED AMOUNT</th>
+                  <th>PAID / STATUS</th>
+                  <th class="text-right">PRINT ACTION</th>
+                </tr>
+              </thead>
+              <tbody id="invoicesTableBody">
+                <!-- Dynamically rendered via admin.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div><!-- End sectionInvoices -->
+
+      <!-- Section 3: Website Live CMS Customizer -->
+      <div id="sectionCms" class="admin-tab-section" style="display: none;">
+        <div class="dashboard-greeting">
+          <div>
+            <h1 class="greeting-title">Website Live CMS Customizer</h1>
+            <p class="greeting-sub">Update the Single Head Trainer, Membership Fees, Gym Photos, and "Aaj Ye Krna H" workout targets live on the public website.</p>
+          </div>
+          <div class="quick-header-actions">
+            <button type="button" class="btn btn-primary-glow btn-lg" id="saveCmsBtnTop">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Update Live Website
+            </button>
+          </div>
+        </div>
+
+        <form id="cmsForm" style="display: flex; flex-direction: column; gap: 24px; margin-top: 20px;">
+          
+          <!-- CMS Card 1: Head Trainer (Ek Hi Trainer) -->
+          <div class="metric-card" style="padding: 28px;">
+            <div class="metric-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--admin-border); padding-bottom: 14px;">
+              <div>
+                <span class="kyc-badge" style="background: rgba(255, 75, 0, 0.15); color: var(--primary); padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
+                  <i class="fa-solid fa-user-ninja"></i> HEAD COACH (EK HI TRAINER)
+                </span>
+                <h3 style="font-size: 1.3rem; margin-top: 8px;">Single Head Trainer Profile</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Website pe sirf yhi ek head coach highlight hoga.</p>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cmsTrainerName">Head Trainer Full Name *</label>
+                <input type="text" id="cmsTrainerName" class="modal-input" required>
+              </div>
+              <div class="form-field">
+                <label for="cmsTrainerRole">Coach Title / Specialization *</label>
+                <input type="text" id="cmsTrainerRole" class="modal-input" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cmsTrainerExp">Experience (Years / Credentials)</label>
+                <input type="text" id="cmsTrainerExp" class="modal-input" placeholder="e.g. 12+ Years Experience">
+              </div>
+              <div class="form-field">
+                <label for="cmsTrainerPhone">Trainer Contact / WhatsApp</label>
+                <input type="text" id="cmsTrainerPhone" class="modal-input" placeholder="+91 98765 43210">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="cmsTrainerBio">Trainer Bio / Achievements (Appears on Website)</label>
+              <textarea id="cmsTrainerBio" class="modal-input" rows="3" style="line-height: 1.5;"></textarea>
+            </div>
+
+            <div class="form-field">
+              <label for="cmsTrainerPhoto"><i class="fa-solid fa-camera"></i> Trainer Photo URL (or Image Link)</label>
+              <input type="text" id="cmsTrainerPhoto" class="modal-input" placeholder="https://images.unsplash.com/...">
+              <div style="display: flex; align-items: center; gap: 14px; margin-top: 10px;">
+                <img id="cmsTrainerPreview" src="" alt="Trainer Preview" style="width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary);">
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Live Coach Thumbnail Preview</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CMS Card 2: Membership Plans & Pricing -->
+          <div class="metric-card" style="padding: 28px;">
+            <div class="metric-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--admin-border); padding-bottom: 14px;">
+              <div>
+                <span class="kyc-badge" style="background: rgba(0, 240, 255, 0.15); color: var(--cyan); padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
+                  <i class="fa-solid fa-tags"></i> MEMBERSHIP PASSES & FEES
+                </span>
+                <h3 style="font-size: 1.3rem; margin-top: 8px;">Membership Plans & Pricing Controller</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Yha se fee change karne par website aur registration dono pe instant update ho jayega.</p>
+              </div>
+            </div>
+
+            <div class="form-grid-3">
+              <!-- Plan 1 -->
+              <div style="background: #0B0E17; padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                <h4 style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 12px;">PLAN 1 (1 MONTH)</h4>
+                <div class="form-field">
+                  <label for="cmsPlan1Name">Plan Name</label>
+                  <input type="text" id="cmsPlan1Name" class="modal-input" value="Standard Iron">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan1Fee">Fee Amount (₹) *</label>
+                  <input type="number" id="cmsPlan1Fee" class="modal-input" value="1999">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan1Tag">Tagline</label>
+                  <input type="text" id="cmsPlan1Tag" class="modal-input" value="Ideal for beginners and trial lifters">
+                </div>
+              </div>
+
+              <!-- Plan 2 -->
+              <div style="background: #0B0E17; padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--border-primary);">
+                <h4 style="color: var(--primary); font-size: 0.9rem; margin-bottom: 12px;">PLAN 2 (3 MONTHS) - POPULAR</h4>
+                <div class="form-field">
+                  <label for="cmsPlan2Name">Plan Name</label>
+                  <input type="text" id="cmsPlan2Name" class="modal-input" value="Pro Athlete">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan2Fee">Fee Amount (₹) *</label>
+                  <input type="number" id="cmsPlan2Fee" class="modal-input" value="4999">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan2Tag">Tagline</label>
+                  <input type="text" id="cmsPlan2Tag" class="modal-input" value="Save ₹1,000 on 3 months pass">
+                </div>
+              </div>
+
+              <!-- Plan 3 -->
+              <div style="background: #0B0E17; padding: 18px; border-radius: var(--radius-sm); border: 1px solid var(--admin-border);">
+                <h4 style="color: var(--cyan); font-size: 0.9rem; margin-bottom: 12px;">PLAN 3 (12 MONTHS) - VIP</h4>
+                <div class="form-field">
+                  <label for="cmsPlan3Name">Plan Name</label>
+                  <input type="text" id="cmsPlan3Name" class="modal-input" value="VIP Beast Ultimate">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan3Fee">Fee Amount (₹) *</label>
+                  <input type="number" id="cmsPlan3Fee" class="modal-input" value="14999">
+                </div>
+                <div class="form-field">
+                  <label for="cmsPlan3Tag">Tagline</label>
+                  <input type="text" id="cmsPlan3Tag" class="modal-input" value="Effective ₹1,249/mo (Massive 38% discount)">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CMS Card 3: Gym Photos & Branding -->
+          <div class="metric-card" style="padding: 28px;">
+            <div class="metric-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--admin-border); padding-bottom: 14px;">
+              <div>
+                <span class="kyc-badge" style="background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
+                  <i class="fa-solid fa-images"></i> GYM PHOTOS & BRANDING
+                </span>
+                <h3 style="font-size: 1.3rem; margin-top: 8px;">Facility Photos & Gym Information</h3>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cmsGymName">Gym Brand Name</label>
+                <input type="text" id="cmsGymName" class="modal-input" value="IRONPULSE FITNESS">
+              </div>
+              <div class="form-field">
+                <label for="cmsGymTagline">Tagline</label>
+                <input type="text" id="cmsGymTagline" class="modal-input" value="PREMIUM STRENGTH & RECOVERY CLUB">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="cmsHeroImage"><i class="fa-solid fa-image"></i> Main Gym Floor / Hero Image URL</label>
+              <input type="text" id="cmsHeroImage" class="modal-input" placeholder="https://images.unsplash.com/...">
+              <div style="display: flex; align-items: center; gap: 14px; margin-top: 10px;">
+                <img id="cmsHeroPreview" src="" alt="Hero Image Preview" style="width: 120px; height: 60px; border-radius: var(--radius-sm); object-fit: cover; border: 1px solid var(--admin-border);">
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Main Hero Image Preview</span>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cmsGymPhone">Club Phone Number</label>
+                <input type="text" id="cmsGymPhone" class="modal-input" value="+91 98765 43210">
+              </div>
+              <div class="form-field">
+                <label for="cmsGymAddress">Physical Address</label>
+                <input type="text" id="cmsGymAddress" class="modal-input" value="Plot 42, Sector 18 Commercial Hub, New Delhi / Azamgarh">
+              </div>
+            </div>
+          </div>
+
+          <!-- CMS Card 4: "Aaj Ye Krna H" Daily Workout Target -->
+          <div class="metric-card" style="padding: 28px;">
+            <div class="metric-header" style="margin-bottom: 20px; border-bottom: 1px solid var(--admin-border); padding-bottom: 14px;">
+              <div>
+                <span class="kyc-badge" style="background: rgba(245, 158, 11, 0.15); color: var(--warning); padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 800;">
+                  <i class="fa-solid fa-dumbbell"></i> AAJ YE KRNA H (DAILY PROTOCOL)
+                </span>
+                <h3 style="font-size: 1.3rem; margin-top: 8px;">Today's Workout Target Routine</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted);">Aap daily workout target yha se live customize kar sakte hain.</p>
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="cmsWorkoutDaySelect">Select Day to Edit:</label>
+              <select id="cmsWorkoutDaySelect" class="modal-input" style="max-width: 300px;">
+                <option value="monday">Monday (Chest & Triceps)</option>
+                <option value="tuesday">Tuesday (Back & Biceps)</option>
+                <option value="wednesday">Wednesday (Legs & Calves)</option>
+                <option value="thursday">Thursday (Shoulders & Traps)</option>
+                <option value="friday">Friday (Arm Farm & Core)</option>
+                <option value="saturday">Saturday (Full Body HIIT)</option>
+                <option value="sunday">Sunday (Active Recovery)</option>
+              </select>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-field">
+                <label for="cmsWorkoutTitle">Target Routine Title</label>
+                <input type="text" id="cmsWorkoutTitle" class="modal-input">
+              </div>
+              <div class="form-field">
+                <label for="cmsWorkoutFocus">Target Muscle Focus</label>
+                <input type="text" id="cmsWorkoutFocus" class="modal-input">
+              </div>
+            </div>
+
+            <div class="form-field">
+              <label for="cmsWorkoutExercises">Exercises (One exercise per line):</label>
+              <textarea id="cmsWorkoutExercises" class="modal-input" rows="5"></textarea>
+            </div>
+          </div>
+
+          <!-- Save CMS Button Bottom -->
+          <div style="display: flex; justify-content: flex-end; padding: 20px 0;">
+            <button type="submit" class="btn btn-primary-glow btn-lg" id="saveCmsBtnBottom">
+              <i class="fa-solid fa-floppy-disk"></i> Save & Update Live Website
+            </button>
+          </div>
+        </form>
+      </div><!-- End sectionCms -->
     </main>
   </div>
 
@@ -673,7 +957,8 @@
   <!-- Toast Notification Container -->
   <div class="toast-container" id="adminToastContainer"></div>
 
-  <!-- Admin Controller Logic -->
+  <!-- Shared CMS & Admin Controller Logic -->
+  <script src="js/cms.js"></script>
   <script src="js/admin.js"></script>
 </body>
 </html>

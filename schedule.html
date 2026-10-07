@@ -50,7 +50,7 @@
         <a href="index.html" class="nav-item">Home</a>
         <a href="about.html" class="nav-item">About</a>
         <a href="programs.html" class="nav-item">Programs</a>
-        <a href="schedule.html" class="nav-item active">Timetable</a>
+        <a href="schedule.html" class="nav-item active">Aaj Ye Krna H</a>
         <a href="pricing.html" class="nav-item">Memberships</a>
         <a href="contact.html" class="nav-item">Contact & Map</a>
       </nav>
@@ -72,33 +72,60 @@
   <!-- Page Banner -->
   <section class="page-hero-banner">
     <div class="container">
-      <h1 class="page-hero-title">CLASS <span class="gradient-text">TIMETABLE</span></h1>
-      <p class="page-hero-lead">Select your day of the week to explore scheduled strength classes, CrossFit WODs, and yoga recovery sessions.</p>
+      <h1 class="page-hero-title">AAJ YE <span class="gradient-text">KRNA H</span></h1>
+      <p class="page-hero-lead">Daily Workout Protocol & Target Muscle Focus. Select any day to see the exact sets, reps and coach cues.</p>
       <div class="breadcrumb-nav">
         <a href="index.html">Home</a>
         <i class="fa-solid fa-chevron-right"></i>
-        <span>Weekly Timetable</span>
+        <span>Aaj Ye Krna H (Daily Protocol)</span>
       </div>
     </div>
   </section>
 
-  <!-- Schedule Section -->
-  <section class="section schedule-section">
+  <!-- Aaj Ye Krna H Section -->
+  <section class="section schedule-section" id="workout-today">
     <div class="container">
       
-      <!-- Day Switcher Tabs -->
-      <div class="schedule-tabs" id="scheduleTabs">
-        <button class="tab-btn active" data-day="monday">Monday</button>
+      <!-- Day Switcher Tabs (Mon - Sun) -->
+      <div class="schedule-tabs" id="workoutDayTabs">
+        <button class="tab-btn" data-day="monday">Monday</button>
         <button class="tab-btn" data-day="tuesday">Tuesday</button>
         <button class="tab-btn" data-day="wednesday">Wednesday</button>
         <button class="tab-btn" data-day="thursday">Thursday</button>
         <button class="tab-btn" data-day="friday">Friday</button>
         <button class="tab-btn" data-day="saturday">Saturday</button>
+        <button class="tab-btn" data-day="sunday">Sunday</button>
       </div>
 
-      <!-- Schedule Dynamic Cards -->
-      <div class="schedule-container" id="scheduleContent">
-        <!-- Injected via js/app.js -->
+      <!-- Today's Workout Focus Card -->
+      <div class="metric-card" id="todayWorkoutCard" style="max-width: 900px; margin: 0 auto; padding: 36px; border: 1px solid var(--border-primary); box-shadow: var(--shadow-card);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 18px;">
+          <div>
+            <span class="status-live-pill" style="margin-left: 0; display: inline-flex; margin-bottom: 8px;">
+              <span class="live-dot"></span> <span id="todayDayBadge">LIVE TARGET: TODAY</span>
+            </span>
+            <h3 id="todayWorkoutTitle" style="font-size: 1.8rem; text-transform: uppercase;">Chest & Triceps Hypertrophy (Push)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Focus: <strong id="todayWorkoutFocus" style="color: var(--cyan);">Pectoralis Major & Triceps Lateral Head</strong></p>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 800; display: block;">WORKOUT INTENSITY</span>
+            <span id="todayWorkoutIntensity" style="font-size: 1.1rem; font-weight: 900; color: var(--primary);">HIGH (HEAVY RESISTANCE)</span>
+          </div>
+        </div>
+
+        <!-- Exercises List -->
+        <h4 style="font-size: 1.05rem; margin-bottom: 14px; color: #fff;"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Exercise Routine Breakdown:</h4>
+        <div id="todayExercisesList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px;">
+          <!-- Dynamically populated via cms.js & app.js -->
+        </div>
+
+        <!-- Coach Tip Box -->
+        <div style="background: rgba(0, 240, 255, 0.05); border-left: 4px solid var(--cyan); padding: 14px 18px; border-radius: 4px; display: flex; align-items: center; gap: 14px;">
+          <i class="fa-solid fa-lightbulb" style="font-size: 1.4rem; color: var(--cyan);"></i>
+          <div style="font-size: 0.88rem; color: var(--text-muted);">
+            <strong>Head Coach Tip:</strong> Har set me 2 second ka negative (eccentric) squeeze rakhein. Proper form over heavy ego lifting!
+          </div>
+        </div>
       </div>
 
       <!-- Booking Info Banner -->
@@ -111,7 +138,7 @@
             <span class="teaser-subtitle">RESERVE YOUR WORKOUT SPOT</span>
             <h3 class="teaser-title">Need a Personal Assessment First?</h3>
             <p class="teaser-text">
-              Book a 1-on-1 trial slot with one of our head coaches to review your lifting form and set baseline numbers.
+              Book a 1-on-1 trial slot with our head coach to review your lifting form and set baseline numbers.
             </p>
           </div>
         </div>
@@ -242,6 +269,7 @@
   </div>
 
   <div class="toast-container" id="toastContainer"></div>
+  <script src="js/cms.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

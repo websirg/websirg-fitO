@@ -379,6 +379,7 @@ function setupNavbar() {
 // Schedule Tab Switching
 function setupScheduleTabs() {
   const tabs = document.querySelectorAll("#scheduleTabs .tab-btn");
+  if (!tabs.length) return;
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
       tabs.forEach(t => t.classList.remove("active"));
@@ -392,9 +393,201 @@ function setupScheduleTabs() {
   renderSchedule("monday");
 }
 
+// "AAJ YE KRNA H" - Today's Workout Target Routine Logic
+function renderWorkoutToday(dayKey) {
+  const cms = (typeof getCmsData === "function") ? getCmsData() : null;
+  if (!cms || !cms.dailyWorkouts) return;
+
+  const workout = cms.dailyWorkouts[dayKey] || cms.dailyWorkouts.monday;
+  const titleEl = document.getElementById("todayWorkoutTitle");
+  const focusEl = document.getElementById("todayWorkoutFocus");
+  const intensityEl = document.getElementById("todayWorkoutIntensity");
+  const badgeEl = document.getElementById("todayDayBadge");
+  const listEl = document.getElementById("todayExercisesList");
+
+  const dayNames = {
+    monday: "MONDAY",
+    tuesday: "TUESDAY",
+    wednesday: "WEDNESDAY",
+    thursday: "THURSDAY",
+    friday: "FRIDAY",
+    saturday: "SATURDAY",
+    sunday: "SUNDAY"
+  };
+
+  const currentDayIndex = new Date().getDay();
+  const dayMap = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const isActualToday = (dayMap[currentDayIndex] === dayKey);
+
+  if (badgeEl) {
+    badgeEl.textContent = isActualToday ? `LIVE TARGET: TODAY (${dayNames[dayKey]})` : `TARGET DAY: ${dayNames[dayKey]}`;
+  }
+  if (titleEl) titleEl.textContent = workout.title;
+  if (focusEl) focusEl.textContent = workout.focus;
+  if (intensityEl) intensityEl.textContent = workout.intensity;
+
+  if (listEl) {
+    if (workout.exercises && workout.exercises.length > 0) {
+      listEl.innerHTML = workout.exercises.map((ex, idx) => {
+        let name = "";
+        let detail = "";
+        if (typeof ex === "string") {
+          name = ex;
+          detail = "Compound Focus & Progressive Squeeze";
+        } else {
+          name = ex.name || "Target Movement";
+          detail = `${ex.sets || 4} Sets × ${ex.reps || '8-12'} | ${ex.notes || 'Strict Form'}`;
+        }
+        return `
+        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 14px 18px; border-radius: 12px; transition: var(--transition);">
+          <div style="display: flex; align-items: center; gap: 14px;">
+            <span style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,75,0,0.15); color: var(--primary); font-weight: 800; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,75,0,0.3);">${idx + 1}</span>
+            <div>
+              <strong style="color: #fff; font-size: 1.02rem; display: block;">${name}</strong>
+              <span style="font-size: 0.82rem; color: var(--text-dim);">${detail}</span>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <span style="background: rgba(0, 240, 255, 0.1); color: var(--cyan); border: 1px solid rgba(0,240,255,0.25); padding: 5px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.5px;">
+              <i class="fa-solid fa-fire"></i> TARGET PROTOCOL
+            </span>
+          </div>
+        </div>
+        `;
+      }).join("");
+    } else {
+      listEl.innerHTML = `
+        <div style="padding: 26px; text-align: center; color: var(--text-muted); background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed var(--border);">
+          <i class="fa-solid fa-bed" style="font-size: 2rem; color: var(--primary); margin-bottom: 10px; display: block;"></i>
+          <strong>Active Recovery & Rest Day</strong>
+          <p style="font-size: 0.85rem; margin-top: 4px; color: var(--text-dim);">Hydrate, stretch, hit protein targets, and let muscles rebuild stronger.</p>
+        </div>
+      `;
+    }
+  }
+}
+
+function setupWorkoutToday() {
+  const tabs = document.querySelectorAll("#workoutDayTabs .tab-btn");
+  if (!tabs.length) return;
+
+  const dayMap = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"];
+  const todayKey = dayMap[new Date().getDay()] || "monday";
+
+  tabs.forEach(tab => {
+    const tabDay = tab.getAttribute("data-day");
+    if (tabDay === todayKey) {
+      tab.classList.add("active");
+    } else {
+      tab.classList.remove("active");
+    }
+
+    tab.addEventListener("click", () => {
+      tabs.forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      renderWorkoutToday(tabDay);
+    });
+  });
+
+  renderWorkoutToday(todayKey);
+}
+
+// Load Live CMS Data (Plans, Single Trainer, Gym Photos) to Public Site
+function loadCmsToPublicSite() {
+  if (typeof getCmsData !== "function") return;
+  const cms = getCmsData();
+  if (!cms) return;
+
+  // 1. Gym branding & photos
+  const heroImg = document.getElementById("cmsHeroImage");
+  if (heroImg && cms.heroImage) heroImg.src = cms.heroImage;
+
+  // 2. Single Head Trainer
+  const tPhoto = document.getElementById("liveTrainerPhoto");
+  const tName = document.getElementById("liveTrainerName");
+  const tRole = document.getElementById("liveTrainerRole");
+  const tBio = document.getElementById("liveTrainerBio");
+  const tExp = document.getElementById("liveTrainerExp");
+  const tWa = document.getElementById("liveTrainerWaLink");
+
+  // Floating coach badge in hero
+  const cBadgeAvatar = document.getElementById("cmsCoachBadgeAvatar");
+  const cBadgeName = document.getElementById("cmsCoachBadgeName");
+  const cBadgeRole = document.getElementById("cmsCoachBadgeRole");
+
+  const trainer = cms.trainer || cms.headTrainer;
+  if (trainer) {
+    const t = trainer;
+    if (tPhoto && t.photo) tPhoto.src = t.photo;
+    if (tName && t.name) tName.textContent = t.name;
+    if (tRole && t.role) tRole.textContent = t.role;
+    if (tBio && t.bio) tBio.textContent = t.bio;
+    if (tExp && t.experience) tExp.textContent = t.experience.toUpperCase();
+    if (tWa && t.phone) {
+      const cleanPhone = t.phone.replace(/[^0-9]/g, '');
+      tWa.href = `https://wa.me/${cleanPhone}?text=Hello%20${encodeURIComponent(t.name)},%20I%20want%20to%20train%20at%20IronPulse!`;
+    }
+
+    if (cBadgeAvatar && t.photo) cBadgeAvatar.src = t.photo;
+    if (cBadgeName && t.name) cBadgeName.textContent = t.name;
+    if (cBadgeRole && t.role) cBadgeRole.textContent = t.role;
+  }
+
+  // 3. Plans & Pricing
+  if (cms.plans) {
+    const planStarter = Array.isArray(cms.plans) ? cms.plans[0] : (cms.plans.starter || cms.plans[0]);
+    const planPro = Array.isArray(cms.plans) ? cms.plans[1] : (cms.plans.pro || cms.plans[1]);
+    const planVip = Array.isArray(cms.plans) ? cms.plans[2] : (cms.plans.vip || cms.plans[2]);
+
+    if (planStarter) {
+      const f = document.getElementById("planFeeStarter");
+      const tg = document.getElementById("planTaglineStarter");
+      const nm = document.getElementById("planNameStarter");
+      const btn = document.getElementById("planBtnStarter");
+      if (f) f.textContent = Number(planStarter.fee).toLocaleString("en-IN");
+      if (tg && planStarter.tagline) tg.textContent = planStarter.tagline;
+      if (nm && planStarter.name) nm.textContent = planStarter.name;
+      if (btn) {
+        btn.setAttribute("data-plan", planStarter.name);
+        btn.setAttribute("data-fee", planStarter.fee);
+      }
+    }
+
+    if (planPro) {
+      const f = document.getElementById("planFeePro");
+      const tg = document.getElementById("planTaglinePro");
+      const nm = document.getElementById("planNamePro");
+      const btn = document.getElementById("planBtnPro");
+      if (f) f.textContent = Number(planPro.fee).toLocaleString("en-IN");
+      if (tg && planPro.tagline) tg.textContent = planPro.tagline;
+      if (nm && planPro.name) nm.textContent = planPro.name;
+      if (btn) {
+        btn.setAttribute("data-plan", planPro.name);
+        btn.setAttribute("data-fee", planPro.fee);
+      }
+    }
+
+    if (planVip) {
+      const f = document.getElementById("planFeeVip");
+      const tg = document.getElementById("planTaglineVip");
+      const nm = document.getElementById("planNameVip");
+      const btn = document.getElementById("planBtnVip");
+      if (f) f.textContent = Number(planVip.fee).toLocaleString("en-IN");
+      if (tg && planVip.tagline) tg.textContent = planVip.tagline;
+      if (nm && planVip.name) nm.textContent = planVip.name;
+      if (btn) {
+        btn.setAttribute("data-plan", planVip.name);
+        btn.setAttribute("data-fee", planVip.fee);
+      }
+    }
+  }
+}
+
 // Initial Boot
 document.addEventListener("DOMContentLoaded", () => {
   setupNavbar();
+  loadCmsToPublicSite();
+  setupWorkoutToday();
   setupScheduleTabs();
   setupBmiCalculator();
   setupModalAndEnrollment();

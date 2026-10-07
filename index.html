@@ -50,7 +50,7 @@
         <a href="index.html" class="nav-item active">Home</a>
         <a href="about.html" class="nav-item">About</a>
         <a href="programs.html" class="nav-item">Programs</a>
-        <a href="schedule.html" class="nav-item">Timetable</a>
+        <a href="#workout-today" class="nav-item">Aaj Ye Krna H</a>
         <a href="pricing.html" class="nav-item">Memberships</a>
         <a href="contact.html" class="nav-item">Contact & Map</a>
       </nav>
@@ -121,7 +121,7 @@
           <!-- Main Hero Showcase Graphic -->
           <div class="hero-main-card">
             <div class="hero-image-box">
-              <img src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop" alt="Gym Workout Training" class="hero-img">
+              <img id="cmsHeroImage" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=1000&auto=format&fit=crop" alt="Gym Workout Training" class="hero-img">
               <div class="img-gradient-scrim"></div>
             </div>
             
@@ -145,10 +145,10 @@
 
             <!-- Floating Card: Coach Live -->
             <div class="floating-card-coach">
-              <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=200&auto=format&fit=crop" alt="Coach Avatar" class="coach-avatar">
+              <img id="cmsCoachBadgeAvatar" src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=200&auto=format&fit=crop" alt="Coach Avatar" class="coach-avatar">
               <div>
-                <h4 class="coach-name">Coach Marcus Vance</h4>
-                <p class="coach-role">Head of Hypertrophy & Strength</p>
+                <h4 class="coach-name" id="cmsCoachBadgeName">Coach Marcus Vance</h4>
+                <p class="coach-role" id="cmsCoachBadgeRole">Head of Hypertrophy & Strength</p>
               </div>
               <span class="status-live-pill"><span class="live-dot"></span> In Gym</span>
             </div>
@@ -331,28 +331,55 @@
     </div>
   </section>
 
-  <!-- Interactive Timetable / Class Schedule -->
-  <section class="section schedule-section" id="schedule">
+  <!-- Aaj Ye Krna H / Today's Target Workout Protocol -->
+  <section class="section schedule-section" id="workout-today">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-tag">WEEKLY WORKOUT GRID</span>
-        <h2 class="section-title">DAILY CLASS <span class="gradient-text">SCHEDULE</span></h2>
-        <p class="section-sub">Choose your preferred day to view our scheduled group workouts, coaches, and open slots.</p>
+        <span class="section-tag"><i class="fa-solid fa-fire"></i> AAJ YE KRNA H</span>
+        <h2 class="section-title">TODAY'S WORKOUT <span class="gradient-text">PROTOCOL</span></h2>
+        <p class="section-sub">Aaj ka target muscle group aur sets/reps plan check karein. Discipline is the only bridge between goals and results.</p>
       </div>
 
-      <!-- Schedule Day Filter Tabs -->
-      <div class="schedule-tabs" id="scheduleTabs">
-        <button class="tab-btn active" data-day="monday">Monday</button>
+      <!-- Day Switcher Tabs (Mon - Sun) -->
+      <div class="schedule-tabs" id="workoutDayTabs">
+        <button class="tab-btn" data-day="monday">Monday</button>
         <button class="tab-btn" data-day="tuesday">Tuesday</button>
-        <button class="tab-btn" data-day="wednesday">Wednesday</button>
+        <button class="tab-btn active" data-day="wednesday">Wednesday</button>
         <button class="tab-btn" data-day="thursday">Thursday</button>
         <button class="tab-btn" data-day="friday">Friday</button>
         <button class="tab-btn" data-day="saturday">Saturday</button>
+        <button class="tab-btn" data-day="sunday">Sunday</button>
       </div>
 
-      <!-- Schedule Table Box -->
-      <div class="schedule-container" id="scheduleContent">
-        <!-- Injected via JavaScript -->
+      <!-- Today's Workout Focus Card -->
+      <div class="metric-card" id="todayWorkoutCard" style="max-width: 900px; margin: 0 auto; padding: 36px; border: 1px solid var(--border-primary); box-shadow: var(--shadow-card);">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 20px; border-bottom: 1px solid var(--border); padding-bottom: 18px;">
+          <div>
+            <span class="status-live-pill" style="margin-left: 0; display: inline-flex; margin-bottom: 8px;">
+              <span class="live-dot"></span> <span id="todayDayBadge">LIVE TARGET: TODAY</span>
+            </span>
+            <h3 id="todayWorkoutTitle" style="font-size: 1.8rem; text-transform: uppercase;">Chest & Triceps Hypertrophy (Push)</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Focus: <strong id="todayWorkoutFocus" style="color: var(--cyan);">Pectoralis Major & Triceps Lateral Head</strong></p>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; font-weight: 800; display: block;">WORKOUT INTENSITY</span>
+            <span id="todayWorkoutIntensity" style="font-size: 1.1rem; font-weight: 900; color: var(--primary);">HIGH (HEAVY RESISTANCE)</span>
+          </div>
+        </div>
+
+        <!-- Exercises List -->
+        <h4 style="font-size: 1.05rem; margin-bottom: 14px; color: #fff;"><i class="fa-solid fa-list-check" style="color: var(--primary);"></i> Exercise Routine Breakdown:</h4>
+        <div id="todayExercisesList" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 26px;">
+          <!-- Dynamically populated via cms.js & app.js -->
+        </div>
+
+        <!-- Coach Tip Box -->
+        <div style="background: rgba(0, 240, 255, 0.05); border-left: 4px solid var(--cyan); padding: 14px 18px; border-radius: 4px; display: flex; align-items: center; gap: 14px;">
+          <i class="fa-solid fa-lightbulb" style="font-size: 1.4rem; color: var(--cyan);"></i>
+          <div style="font-size: 0.88rem; color: var(--text-muted);">
+            <strong>Head Coach Tip:</strong> Har set me 2 second ka negative (eccentric) squeeze rakhein. Proper form over heavy ego lifting!
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -456,13 +483,13 @@
         <div class="price-card">
           <div class="price-header">
             <span class="plan-type">MONTHLY PASS</span>
-            <h3 class="plan-name">Standard Iron</h3>
+            <h3 class="plan-name" id="planNameStarter">Standard Iron</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">1,999</span>
+              <span class="amount" id="planFeeStarter">1,999</span>
               <span class="period">/month</span>
             </div>
-            <p class="price-tagline">Perfect for beginners and short-term lifters</p>
+            <p class="price-tagline" id="planTaglineStarter">Perfect for beginners and short-term lifters</p>
           </div>
 
           <div class="price-body">
@@ -477,7 +504,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-glass btn-block join-plan-btn" data-plan="Standard Iron" data-fee="1999" data-duration="1 Month">
+            <button class="btn btn-glass btn-block join-plan-btn" id="planBtnStarter" data-plan="Standard Iron" data-fee="1999" data-duration="1 Month">
               Select Standard
             </button>
           </div>
@@ -488,13 +515,13 @@
           <div class="popular-ribbon">MOST POPULAR</div>
           <div class="price-header">
             <span class="plan-type">QUARTERLY (3 MONTHS)</span>
-            <h3 class="plan-name">Pro Athlete</h3>
+            <h3 class="plan-name" id="planNamePro">Pro Athlete</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">4,999</span>
+              <span class="amount" id="planFeePro">4,999</span>
               <span class="period">/quarter</span>
             </div>
-            <p class="price-tagline">Only ₹1,666/mo (Save ₹1,000 on 3 months)</p>
+            <p class="price-tagline" id="planTaglinePro">Only ₹1,666/mo (Save ₹1,000 on 3 months)</p>
           </div>
 
           <div class="price-body">
@@ -509,7 +536,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-primary-glow btn-block join-plan-btn" data-plan="Pro Athlete" data-fee="4999" data-duration="3 Months">
+            <button class="btn btn-primary-glow btn-block join-plan-btn" id="planBtnPro" data-plan="Pro Athlete" data-fee="4999" data-duration="3 Months">
               Select Pro Athlete
             </button>
           </div>
@@ -519,13 +546,13 @@
         <div class="price-card vip-tier">
           <div class="price-header">
             <span class="plan-type">ANNUAL VIP (12 MONTHS)</span>
-            <h3 class="plan-name">VIP Beast Ultimate</h3>
+            <h3 class="plan-name" id="planNameVip">VIP Beast Ultimate</h3>
             <div class="price-figure">
               <span class="currency">₹</span>
-              <span class="amount">14,999</span>
+              <span class="amount" id="planFeeVip">14,999</span>
               <span class="period">/year</span>
             </div>
-            <p class="price-tagline">Only ₹1,249/mo (Massive 38% annual discount)</p>
+            <p class="price-tagline" id="planTaglineVip">Only ₹1,249/mo (Massive 38% annual discount)</p>
           </div>
 
           <div class="price-body">
@@ -540,7 +567,7 @@
           </div>
 
           <div class="price-footer">
-            <button class="btn btn-glass btn-block join-plan-btn" data-plan="VIP Beast Ultimate" data-fee="14999" data-duration="12 Months">
+            <button class="btn btn-glass btn-block join-plan-btn" id="planBtnVip" data-plan="VIP Beast Ultimate" data-fee="14999" data-duration="12 Months">
               Claim VIP Beast
             </button>
           </div>
@@ -549,77 +576,79 @@
     </div>
   </section>
 
-  <!-- Elite Coaches / Trainers Section -->
+  <!-- Elite Head Trainer Section (Single Master Coach) -->
   <section class="section trainers-section" id="trainers">
     <div class="container">
       <div class="section-header text-center">
-        <span class="section-tag">WORLD CLASS MENTORSHIP</span>
-        <h2 class="section-title">MEET OUR <span class="gradient-text">ELITE COACHES</span></h2>
-        <p class="section-sub">Guided by national bodybuilding champions, certified exercise physiologists, and physical therapy experts.</p>
+        <span class="section-tag"><i class="fa-solid fa-crown"></i> EXCLUSIVE 1-ON-1 LEADERSHIP</span>
+        <h2 class="section-title">MEET OUR <span class="gradient-text">HEAD COACH & TRAINER</span></h2>
+        <p class="section-sub">Personalized mentorship, biomechanics precision, and championship discipline under our dedicated master head trainer.</p>
       </div>
 
-      <div class="trainers-grid">
-        <!-- Trainer 1 -->
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=700&auto=format&fit=crop" alt="Coach Marcus Vance">
-            <div class="trainer-socials">
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+      <div class="single-trainer-showcase" id="singleTrainerCard">
+        <div class="single-trainer-image-wrap">
+          <img id="liveTrainerPhoto" src="https://images.unsplash.com/photo-1567013127542-490d757e51fc?q=80&w=800&auto=format&fit=crop" alt="Head Trainer" class="single-trainer-img">
+          <div class="single-trainer-badge-exp">
+            <i class="fa-solid fa-award"></i>
+            <div>
+              <span class="badge-num" id="liveTrainerExp">12+ YEARS</span>
+              <span class="badge-lbl">PRO EXPERIENCE</span>
             </div>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Marcus Vance</h3>
-            <span class="trainer-spec">Head of Hypertrophy & Power</span>
-            <p class="trainer-desc">12+ years experience preparing pro athletes and classic physique champions.</p>
+          <div class="single-trainer-badge-specialty">
+            <span class="live-dot"></span> Head Coach In-Gym Active
           </div>
         </div>
 
-        <!-- Trainer 2 -->
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=700&auto=format&fit=crop" alt="Coach Elena Rostova">
-            <div class="trainer-socials">
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-youtube"></i></a>
-            </div>
+        <div class="single-trainer-content">
+          <div class="single-trainer-header">
+            <span class="coach-tag"><i class="fa-solid fa-shield-halved"></i> CHIEF FITNESS DIRECTOR & HEAD TRAINER</span>
+            <h3 class="single-trainer-title" id="liveTrainerName">Coach Marcus Vance</h3>
+            <p class="single-trainer-role" id="liveTrainerRole">Head of Hypertrophy & Powerlifting Mechanics</p>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Elena Rostova</h3>
-            <span class="trainer-spec">CrossFit & High-Intensity Conditioning</span>
-            <p class="trainer-desc">Certified Level 3 CrossFit Coach specializing in metabolic capacity and sprint power.</p>
-          </div>
-        </div>
 
-        <!-- Trainer 3 -->
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=700&auto=format&fit=crop" alt="Coach Priya Sharma">
-            <div class="trainer-socials">
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-youtube"></i></a>
-            </div>
-          </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Priya Sharma</h3>
-            <span class="trainer-spec">Clinical Nutritionist & Flexibility</span>
-            <p class="trainer-desc">Specialist in hormone balancing, fat loss dietetics, and restorative functional yoga.</p>
-          </div>
-        </div>
+          <p class="single-trainer-bio" id="liveTrainerBio">
+            12+ years experience preparing pro athletes and classic physique champions. Specialist in hypertrophy biomechanics, custom macro nutrition, and safe spine loading protocols.
+          </p>
 
-        <!-- Trainer 4 -->
-        <div class="trainer-card">
-          <div class="trainer-photo">
-            <img src="https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?q=80&w=700&auto=format&fit=crop" alt="Coach Devraj Singh">
-            <div class="trainer-socials">
-              <a href="#"><i class="fa-brands fa-instagram"></i></a>
-              <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          <div class="trainer-highlights-grid">
+            <div class="highlight-item">
+              <i class="fa-solid fa-trophy"></i>
+              <div>
+                <strong>500+ Members</strong>
+                <span>Transformations</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-utensils"></i>
+              <div>
+                <strong>Custom Macro</strong>
+                <span>Dietary Coaching</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-dumbbell"></i>
+              <div>
+                <strong>Compound PR</strong>
+                <span>Form Perfection</span>
+              </div>
+            </div>
+            <div class="highlight-item">
+              <i class="fa-solid fa-heart-pulse"></i>
+              <div>
+                <strong>Mobility &</strong>
+                <span>Active Recovery</span>
+              </div>
             </div>
           </div>
-          <div class="trainer-info">
-            <h3 class="trainer-name">Devraj Singh</h3>
-            <span class="trainer-spec">Strength & Raw Powerlifting Coach</span>
-            <p class="trainer-desc">National deadlift record holder with a focus on spine mechanics and safe PR progression.</p>
+
+          <div class="single-trainer-actions">
+            <button class="btn btn-primary-glow join-plan-btn" data-plan="VIP Personal Coaching" data-fee="14999" data-duration="1-on-1 Sessions">
+              <i class="fa-solid fa-calendar-check"></i> Book Personal Session with Coach
+            </button>
+            <a id="liveTrainerWaLink" href="https://wa.me/919876543210?text=Hello%20Coach,%20I%20want%20to%20train%20with%20you" target="_blank" class="btn btn-outline-neon">
+              <i class="fa-brands fa-whatsapp"></i> Chat with Head Coach
+            </a>
           </div>
         </div>
       </div>
@@ -877,6 +906,7 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
+  <script src="js/cms.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
