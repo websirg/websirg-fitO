@@ -439,16 +439,16 @@ function renderWorkoutToday(dayKey) {
           detail = `${ex.sets || 4} Sets × ${ex.reps || '8-12'} | ${ex.notes || 'Strict Form'}`;
         }
         return `
-        <div style="display: flex; align-items: center; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 14px 18px; border-radius: 12px; transition: var(--transition);">
-          <div style="display: flex; align-items: center; gap: 14px;">
-            <span style="width: 32px; height: 32px; border-radius: 50%; background: rgba(255,75,0,0.15); color: var(--primary); font-weight: 800; font-size: 0.9rem; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,75,0,0.3);">${idx + 1}</span>
-            <div>
-              <strong style="color: #fff; font-size: 1.02rem; display: block;">${name}</strong>
-              <span style="font-size: 0.82rem; color: var(--text-dim);">${detail}</span>
+        <div class="workout-item">
+          <div class="workout-item-left">
+            <span class="workout-num-badge">${idx + 1}</span>
+            <div class="workout-item-details">
+              <strong class="workout-name">${name}</strong>
+              <span class="workout-sub">${detail}</span>
             </div>
           </div>
-          <div style="text-align: right;">
-            <span style="background: rgba(0, 240, 255, 0.1); color: var(--cyan); border: 1px solid rgba(0,240,255,0.25); padding: 5px 12px; border-radius: 20px; font-size: 0.82rem; font-weight: 800; letter-spacing: 0.5px;">
+          <div class="workout-item-right">
+            <span class="workout-pill-badge">
               <i class="fa-solid fa-fire"></i> TARGET PROTOCOL
             </span>
           </div>

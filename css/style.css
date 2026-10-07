@@ -53,6 +53,8 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body {
@@ -61,6 +63,11 @@ body {
   color: var(--text-main);
   line-height: 1.6;
   overflow-x: hidden;
+  width: 100%;
+  max-width: 100vw;
+  position: relative;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   background-image: 
     radial-gradient(circle at 10% 10%, rgba(255, 75, 0, 0.09) 0%, transparent 40%),
     radial-gradient(circle at 90% 45%, rgba(0, 240, 255, 0.06) 0%, transparent 45%),
@@ -2022,96 +2029,200 @@ img {
   }
 }
 
-@media (max-width: 768px) {
-  /* Mobile Navigation Slide Down */
-  .nav-links {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    background: #0B0E17;
-    flex-direction: column;
-    padding: 24px;
-    gap: 16px;
-    border-bottom: 2px solid var(--primary);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
-  }
-  
-  .nav-links.open {
-    display: flex;
-  }
-  
-  .nav-item {
-    font-size: 1.1rem;
-    padding: 8px 0;
-  }
-  
-  .mobile-toggle {
-    display: block;
-  }
-  
-  .nav-actions .btn {
-    display: none; /* Shown in drawer or mobile bottom bar */
-  }
-  
-  .top-bar-content {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .top-actions {
-    justify-content: center;
-    width: 100%;
-  }
+/* ==========================================================================
+   AAJ YE KRNA H / TODAY'S WORKOUT PROTOCOL COMPONENT
+   ========================================================================== */
+.today-workout-card {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 36px;
+  background: linear-gradient(145deg, #101726 0%, #141f33 100%);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card), 0 0 30px rgba(255, 75, 0, 0.08);
+  transition: var(--transition);
+}
 
-  .hero-section {
-    padding: 40px 0;
-  }
-  
-  .hero-title {
-    font-size: 2.2rem;
-  }
+.today-workout-card:hover {
+  border-color: var(--primary);
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.6), 0 0 40px rgba(255, 75, 0, 0.16);
+}
 
-  .hero-stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .programs-grid,
-  .trainers-grid,
-  .features-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .calc-wrapper {
-    padding: 24px;
-  }
-  
-  .form-row-2 {
-    grid-template-columns: 1fr;
-  }
-  
-  .footer-content {
-    grid-template-columns: 1fr;
-  }
-  
-  .map-iframe {
-    height: 320px;
-  }
-  
-  .map-overlay-badge {
-    position: static;
-    margin: 12px;
-  }
-  
-  /* Mobile Floating Bottom Bar */
-  .mobile-bottom-bar {
-    display: block;
-  }
-  
-  body {
-    padding-bottom: 70px; /* Space for bottom bar */
-  }
+.workout-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 20px;
+}
+
+.workout-header-left {
+  flex: 1;
+  min-width: 260px;
+}
+
+.workout-card-title {
+  font-size: 1.85rem;
+  text-transform: uppercase;
+  margin-top: 6px;
+  margin-bottom: 4px;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.workout-card-focus {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.workout-card-focus strong {
+  color: var(--secondary);
+}
+
+.workout-header-right {
+  text-align: right;
+  background: rgba(255, 75, 0, 0.08);
+  border: 1px solid rgba(255, 75, 0, 0.25);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+}
+
+.intensity-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  display: block;
+}
+
+.intensity-value {
+  font-size: 1.1rem;
+  font-weight: 900;
+  color: var(--primary);
+  display: block;
+}
+
+.routine-breakdown-heading {
+  font-size: 1.05rem;
+  margin-bottom: 16px;
+  color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.routine-breakdown-heading i {
+  color: var(--primary);
+}
+
+.workout-exercises-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.workout-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  padding: 14px 20px;
+  border-radius: 14px;
+  transition: var(--transition);
+  gap: 14px;
+}
+
+.workout-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 75, 0, 0.35);
+  transform: translateX(4px);
+}
+
+.workout-item-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.workout-num-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 75, 0, 0.15);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.92rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 75, 0, 0.35);
+  flex-shrink: 0;
+}
+
+.workout-item-details {
+  min-width: 0;
+}
+
+.workout-name {
+  color: #FFFFFF;
+  font-size: 1.02rem;
+  display: block;
+  word-break: break-word;
+}
+
+.workout-sub {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  display: block;
+}
+
+.workout-pill-badge {
+  background: rgba(0, 240, 255, 0.1);
+  color: var(--secondary);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coach-tip-box {
+  background: rgba(0, 240, 255, 0.05);
+  border-left: 4px solid var(--secondary);
+  padding: 16px 20px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.coach-tip-box i {
+  font-size: 1.5rem;
+  color: var(--secondary);
+  flex-shrink: 0;
+}
+
+.coach-tip-box .tip-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.coach-tip-box .tip-text strong {
+  color: #FFFFFF;
 }
 
 /* ==========================================================================
@@ -2307,17 +2418,652 @@ img {
   flex-wrap: wrap;
 }
 
-@media (max-width: 900px) {
+/* Mobile Header Panel Button */
+.mobile-header-panel-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.mobile-nav-cta {
+  display: none;
+}
+
+/* ==========================================================================
+   TABLET RESPONSIVENESS (max-width: 992px)
+   ========================================================================== */
+@media (max-width: 992px) {
   .single-trainer-showcase {
     grid-template-columns: 1fr;
   }
   .single-trainer-image-wrap {
-    min-height: 360px;
+    min-height: 380px;
   }
   .single-trainer-content {
-    padding: 30px 24px;
+    padding: 34px 28px;
   }
+}
+
+/* ==========================================================================
+   MOBILE-FIRST PHONE OPTIMIZATION (max-width: 768px)
+   ========================================================================== */
+@media (max-width: 768px) {
+  /* Container Padding */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* Header adjustments */
+  .header {
+    padding: 10px 0;
+  }
+
+  .brand-title, .brand-name {
+    font-size: 1.2rem;
+  }
+
+  .brand-sub {
+    font-size: 0.62rem;
+    letter-spacing: 0.8px;
+  }
+
+  .logo-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .mobile-header-panel-btn {
+    display: inline-flex !important;
+    padding: 7px 12px;
+    font-size: 0.78rem;
+    border-radius: 9999px;
+  }
+
+  #headerJoinBtn {
+    display: none !important;
+  }
+
+  .mobile-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-light);
+    border-radius: 10px;
+    color: #FFFFFF;
+    font-size: 1.15rem;
+    cursor: pointer;
+  }
+
+  /* Mobile Navigation Slide Down Drawer */
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 14, 23, 0.98);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    flex-direction: column;
+    padding: 20px 16px 24px;
+    gap: 6px;
+    border-bottom: 2px solid var(--primary);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+  }
+
+  .nav-links.open {
+    display: flex;
+    animation: mobileDrawerSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes mobileDrawerSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .nav-item {
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 12px 16px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-item:active, .nav-item.active {
+    background: rgba(255, 75, 0, 0.12);
+    color: var(--primary);
+  }
+
+  .mobile-nav-cta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 12px;
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* Top Bar */
+  .top-bar-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 6px;
+  }
+
+  .top-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Hero Section Mobile */
+  .hero-section {
+    padding: 24px 0 40px;
+  }
+
+  .hero-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .hero-badge {
+    margin: 0 auto 16px;
+    font-size: 0.78rem;
+    padding: 6px 14px;
+  }
+
+  .hero-title {
+    font-size: clamp(2.1rem, 8vw, 2.7rem);
+    line-height: 1.12;
+    margin-bottom: 14px;
+  }
+
+  .hero-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    max-width: 100%;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .hero-buttons .btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 0.98rem;
+    justify-content: center;
+  }
+
+  .hero-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding-top: 20px;
+  }
+
+  .hero-stat-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border);
+    padding: 14px 10px;
+    border-radius: var(--radius-md);
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 1.6rem;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+  }
+
+  /* Hero Visual & Badges on Mobile (NO OVERFLOW) */
+  .hero-visual {
+    width: 100%;
+    overflow: hidden;
+    padding: 8px 0;
+  }
+
+  .hero-card-stack {
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero-image-box {
+    height: 380px;
+    border-radius: 20px;
+  }
+
+  .floating-badge {
+    padding: 8px 12px;
+    border-radius: 12px;
+    animation: none;
+  }
+
+  .floating-badge .icon-wrap {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .badge-title {
+    font-size: 0.65rem;
+  }
+
+  .badge-val {
+    font-size: 0.88rem;
+  }
+
+  .badge-heart {
+    top: 14px;
+    left: 10px;
+  }
+
+  .badge-calories {
+    top: 80px;
+    right: 10px;
+  }
+
+  .floating-card-coach {
+    left: 10px;
+    right: 10px;
+    bottom: 12px;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+
+  .coach-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .coach-name {
+    font-size: 0.85rem;
+  }
+
+  .coach-role {
+    font-size: 0.72rem;
+  }
+
+  /* "AAJ YE KRNA H" Mobile Swiper Chips */
+  .schedule-tabs {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    gap: 8px;
+    padding: 4px 2px 14px;
+    margin-bottom: 20px;
+  }
+
+  .schedule-tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .schedule-tabs .tab-btn {
+    flex: 0 0 auto;
+    padding: 9px 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    border-radius: 9999px;
+  }
+
+  .today-workout-card {
+    padding: 22px 16px;
+    border-radius: 18px;
+  }
+
+  .workout-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    text-align: left;
+  }
+
+  .workout-card-title {
+    font-size: 1.4rem;
+  }
+
+  .workout-header-right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+    padding: 8px 14px;
+  }
+
+  .intensity-value {
+    font-size: 0.95rem;
+  }
+
+  .workout-item {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+
+  .workout-item-left {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .workout-item-right {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .workout-pill-badge {
+    font-size: 0.74rem;
+    padding: 4px 10px;
+  }
+
+  .coach-tip-box {
+    padding: 12px 14px;
+    gap: 12px;
+    border-radius: 8px;
+  }
+
+  .coach-tip-box i {
+    font-size: 1.25rem;
+  }
+
+  .coach-tip-box .tip-text {
+    font-size: 0.82rem;
+  }
+
+  /* Single Head Trainer Card Mobile */
+  .single-trainer-showcase {
+    grid-template-columns: 1fr;
+    border-radius: 20px;
+  }
+
+  .single-trainer-image-wrap {
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .single-trainer-badge-exp {
+    top: 14px;
+    left: 14px;
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  .single-trainer-badge-exp .badge-num {
+    font-size: 0.88rem;
+  }
+
+  .single-trainer-badge-specialty {
+    bottom: 14px;
+    left: 14px;
+    right: 14px;
+    padding: 8px 12px;
+    font-size: 0.78rem;
+  }
+
+  .single-trainer-content {
+    padding: 24px 18px;
+  }
+
+  .single-trainer-title {
+    font-size: 1.7rem;
+  }
+
+  .single-trainer-role {
+    font-size: 0.92rem;
+  }
+
+  .single-trainer-bio {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  .trainer-highlights-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .highlight-item {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .highlight-item strong {
+    font-size: 0.82rem;
+  }
+
+  .highlight-item span {
+    font-size: 0.7rem;
+  }
+
+  .single-trainer-actions {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+  }
+
+  .single-trainer-actions .btn {
+    width: 100%;
+    padding: 13px 18px;
+    font-size: 0.92rem;
+    justify-content: center;
+  }
+
+  /* Pricing Cards Mobile */
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+    gap: 20px;
+  }
+
+  .price-card {
+    padding: 26px 20px;
+    border-radius: 20px;
+  }
+
+  .price-figure .amount {
+    font-size: 2.5rem;
+  }
+
+  .price-footer .btn {
+    width: 100%;
+    padding: 14px 20px;
+  }
+
+  /* BMI Calculator Mobile */
+  .calc-wrapper {
+    padding: 22px 16px;
+    border-radius: 20px;
+  }
+
+  .form-row-2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  /* Programs & Grid Elements Mobile */
+  .programs-grid,
+  .trainers-grid,
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Google Map Mobile */
+  .map-iframe {
+    height: 280px;
+  }
+
+  .map-overlay-badge {
+    position: static;
+    margin: 12px 0 0;
+    width: 100%;
+  }
+
+  /* Admin Teaser Banner Mobile */
+  .admin-teaser-card {
+    padding: 26px 20px;
+    border-radius: 20px;
+    gap: 20px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .teaser-left {
+    flex-direction: column;
+    gap: 14px;
+    text-align: center;
+  }
+
+  .teaser-icon {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+    margin: 0 auto;
+  }
+
+  .teaser-title {
+    font-size: 1.35rem;
+  }
+
+  .teaser-right {
+    width: 100%;
+  }
+
+  .teaser-right .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer Mobile */
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  /* Modal on Mobile */
+  .modal-overlay {
+    padding: 14px;
+  }
+
+  .modal-container {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px 18px;
+    border-radius: 20px;
+    max-height: 92vh;
+  }
+
+  /* Floating Bottom Bar Mobile (Native iOS/Android App feel) */
+  .mobile-bottom-bar {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(8, 11, 17, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 75, 0, 0.35);
+    padding: 10px 12px max(12px, env(safe-area-inset-bottom));
+    z-index: 1500;
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.8);
+  }
+
+  .mobile-bottom-inner {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .mobile-bottom-btn {
+    flex: 1;
+    padding: 11px 8px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+  .mobile-bottom-btn:active {
+    transform: scale(0.96);
+  }
+
+  body {
+    padding-bottom: 84px !important;
+  }
+}
+
+/* ==========================================================================
+   EXTRA SMALL PHONES (max-width: 480px, e.g. iPhone SE, compact devices)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 2.05rem;
+  }
+
+  .hero-image-box {
+    height: 330px;
+  }
+
+  .badge-heart {
+    top: 10px;
+    left: 8px;
+  }
+
+  .badge-calories {
+    top: 75px;
+    right: 8px;
+  }
+
   .trainer-highlights-grid {
     grid-template-columns: 1fr;
   }
+
+  .single-trainer-image-wrap {
+    height: 310px;
+    min-height: 310px;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .price-figure .amount {
+    font-size: 2.2rem;
+  }
+
+  .hero-stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
 }
+
